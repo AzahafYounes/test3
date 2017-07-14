@@ -1,0 +1,754 @@
+@(msg:String,logedUser : Utilisateur, offre:OffreOfficine,brouillons:List[Brouillon],notifications:List[UserNotif],notificationsLu:List[UserNotif])
+
+
+<!DOCTYPE html>
+
+
+<!--[if !IE]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+<meta charset="utf-8"/>
+<title>LOGIECHANGE | Officine</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="" name="description"/>
+<meta content="" name="author"/>
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
+<!-- END GLOBAL MANDATORY STYLES -->
+<!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+<link href="../../assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/fullcalendar/fullcalendar.print.css" rel="stylesheet" media="print"/>
+<link href="../../assets/global/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/toastr-master/build/toastr.css"/>
+<!-- END PAGE LEVEL PLUGIN STYLES -->
+<!-- BEGIN PAGE STYLES -->
+<link href="../../assets/admin/pages/css/tasks.css" rel="stylesheet" type="text/css"/>
+<!-- END PAGE STYLES -->
+<!-- BEGIN THEME STYLES -->
+<link href="../../assets/global/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/admin/layout/css/themes/light2.css" rel="stylesheet" type="text/css" id="style_color"/>
+<link href="../../assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/media/css/jquery.dataTables.css"/>
+
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/extensions/ColVis/css/dataTables.colVis.css"/>
+
+<!-- END THEME STYLES -->
+<link rel="icon" href="../../assets/favicon.ico"/>
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
+<body class="page-header-fixed page-quick-sidebar-over-content page-sidebar-closed-hide-logo page-container-bg-solid">
+<!-- BEGIN HEADER -->
+<div class="page-header -i navbar navbar-fixed-top">
+	<!-- BEGIN HEADER INNER -->
+	<div class="page-header-inner">
+		<!-- BEGIN LOGO -->
+		<div class="page-logo">
+			<a href="/admin">
+			<img src="../../assets/admin/layout/img/logo-big-white.png" alt="logo" style="height: 30px;" class="logo-default"/>
+			</a>
+			<div class="menu-toggler sidebar-toggler hide">
+			</div>
+		</div>
+		<!-- END LOGO -->
+		<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+		<a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+		</a>
+		<!-- END RESPONSIVE MENU TOGGLER -->
+		<!-- BEGIN TOP NAVIGATION MENU -->
+		<div class="top-menu">
+			<ul class="nav navbar-nav pull-right">
+				<!-- BEGIN NOTIFICATION DROPDOWN -->
+				<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+				
+				 
+				
+				<li class="dropdown dropdown-user">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+					<img alt="" class="img-circle" src="@logedUser.getPhoto()"/>
+					<span class="username username-hide-on-mobile">
+					@logedUser.getNom() @logedUser.getPrenom() </span>
+					<i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-default">
+					 <li>
+							<a href="/accountSettings">
+							<i class="icon-user"></i> Mon profil </a>
+						</li>
+					 
+						<li class="divider">
+						</li>
+						<li>
+							<a href="@routes.Authentification.getAuthentification()">
+							<i class="icon-key"></i> Déconnexion </a>
+						</li>
+					</ul>
+				</li>
+			 
+			</ul>
+		</div>
+		<!-- END TOP NAVIGATION MENU -->
+	</div>
+	
+	<!-- END HEADER INNER -->
+</div>
+<!-- END HEADER -->
+
+<div class="clearfix">
+</div>
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN SIDEBAR -->
+	 	 <!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar-wrapper">
+			<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+			<!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+			<div class="page-sidebar navbar-collapse collapse">
+				<!-- BEGIN SIDEBAR MENU -->
+				<!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+				<!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+				<!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+				<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+				<!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+				<!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+				<ul class="page-sidebar-menu " data-keep-expanded="false"
+					data-auto-scroll="true" data-slide-speed="200">
+					<!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
+					<li class="sidebar-toggler-wrapper">
+						<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+						<div class="sidebar-toggler"></div> <!-- END SIDEBAR TOGGLER BUTTON -->
+					</li>
+					<!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
+					<li class="sidebar-search-wrapper">
+						<!-- BEGIN RESPONSIVE QUICK SEARCH FORM --> <!-- DOC: Apply "sidebar-search-bordered" class the below search form to have bordered search box -->
+						<!-- DOC: Apply "sidebar-search-bordered sidebar-search-solid" class the below search form to have bordered & solid search box -->
+						<form class="sidebar-search " action="" method="GET">
+							<a href="javascript:;" class="remove"> <i class="icon-close"></i>
+							</a>
+							<div class="input-group">
+								
+							</div>
+						</form> <!-- END RESPONSIVE QUICK SEARCH FORM -->
+					</li>
+					@if(logedUser.getRole()=="AdminOfficine"){
+						<li><a href="javascript:;"> <i class="fa fa-cogs"></i> <span
+							class="title">Paramétrage</span> <span class="arrow"></span>
+					</a>
+						<ul class="sub-menu">
+							<li><a href="/allUsers">utilisateurs</a></li>
+							 
+							<li><a href="/monGroupe">Groupe</a></li>
+							
+						</ul></li>
+					}
+					<li><a href="/listFournisseurPh"> <i class="fa fa-search"></i> <span
+							class="title">Fournisseurs</span> <span class="arrow"></span>
+					</a></li>
+					<li><a href="/listProdPh/A"> <i class="fa fa-eye"></i> <span
+							class="title">Produits</span> <span class="arrow"></span>
+					</a></li>
+					<li ><a href="/offres"> <i class="fa fa-edit"></i> <span
+							class="title">Offres</span><span class="arrow"></span>
+					</a></li>
+					<li class="active"><a href="/brouillons"> <i class="fa fa-users"></i> <span
+							class="title">Historiques</span><span class="arrow"></span>
+					</a></li>	
+					<li ><a href="/situation"> <i class="fa fa-briefcase"></i> <span
+							class="title">Situation</span> <span class="arrow"></span>
+					</a>
+						</li>
+						<li ><a href="/admin"> <i class="icon-home"></i> <span
+							class="title">Tableau de Bord</span> <span class="arrow"></span>
+					</a>
+						</li>
+
+					
+					<!-- END ANGULARJS LINK -->
+				</ul>
+				<!-- END SIDEBAR MENU -->
+			</div>
+		</div>
+		<!-- END SIDEBAR -->
+	<!-- END SIDEBAR -->
+	<!-- BEGIN CONTENT -->
+	<div class="page-content-wrapper">
+		<div class="page-content">
+			<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+			<!-- /.modal -->
+			<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+			<!-- BEGIN PAGE HEADER-->
+			<div class="page-bar">
+				<h3 class="page-title">
+				ESPACE OFFICINE | OFFRES
+				</h3>
+				<ul class="page-breadcrumb">
+					<li>
+						<i class="fa fa-home"></i>
+						<a href="/admin">Home</a>
+						<i class="fa fa-angle-right"></i>
+					</li>
+					<li>
+						<a href="#">Espace OFFICINE</a>
+					</li>
+				</ul>
+			</div>
+			<div class="clearfix">
+			</div>
+			<div class="row">
+					
+					<div class="row">
+					<div class="col-md-12 ">
+						<!-- BEGIN PORTLET-->
+						<div class="portlet  box blue-hoki">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-edit"></i>Liste des Participatiants
+								</div>
+								<div class="tools">
+									<a href="javascript:;" class="collapse"> </a>
+								</div>
+							</div>
+							<div class="portlet-body">
+								
+
+								<table class="table table-striped table-hover table-bordered"
+									id="sample_editable_1">
+
+									<thead>
+										<tr id="1">
+											<th class="table-checkbox"><input type="checkbox"
+												class="group-checkable"
+												data-set="#sample_editable_1 .checkboxes" /></th>
+
+											<th class="col-md-2">Fournisseur</th>
+
+											<th class="col-md-2">Date Offre</th>
+
+											<th class="col-md-1">Date Limite</th>
+
+											<th  class="col-md-1">Date Participation</th>
+											
+											<th class="col-md-1">Etat</th>
+
+											
+											<th class="col-md-2">Actions</th>
+										</tr>
+										
+									</thead>
+									<tbody>
+										@for(brouillon<-brouillons){
+										
+											<tr>
+											<td align="right">@brouillon.getId()</td>
+
+											<td>@brouillon.getOffre().getFournisseur().getNom()</td>
+
+											<td align="right">@brouillon.getOffre().getDateOffre().format("dd/MM/yyyy")</td>
+
+											<td align="right">@brouillon.getOffre().getDateLimit().format("dd/MM/yyyy")</td>
+
+											<td align="right">@brouillon.getDateBrouillons().format("dd/MM/yyyy")</td>
+
+											
+												@if(brouillon.getValide()==0){
+													<td>En Cours de traitement</td>
+													<td>
+														<a  class="voir" rel="@brouillon.getId()" href="javascript:;"><img	src="../../assets/img/detail.png" title="voir" title="voir"></a> 
+														<a onclick="edit(@brouillon.getId())"> <img src="../../assets/img/edit.png" title="Modifier"/></a>
+														<a class="delete" href="javascript:;" rel="@brouillon.getId()"><img src="../../assets/img/delete.png" title="Supprimer"/> </a>
+														
+													</td>
+												}
+												@if(brouillon.getValide()==1){
+													<td>Valide</td>
+													<td>
+															<a  class="voir" rel="@brouillon.getId()" href="javascript:;"><img	src="../../assets/img/detail.png" title="voir" title="voir"></a> 
+													@if(logedUser.getId()==brouillon.getOffre().getUser().getId()){
+														
+															<a onclick="edit(@brouillon.getId())"> <img src="../../assets/img/edit.png" title="Modifier"/></a>
+															<a class="delete" href="javascript:;" rel="@brouillon.getId()"><img src="../../assets/img/delete.png" title="Supprimer"/> </a>
+														
+														
+													}
+													
+													</td>
+												}
+												@if(brouillon.getValide()==2){
+													<td>Attente de la livraison</td>
+													<td>
+														<a class="voir" rel="@brouillon.getId()" href="javascript:;"><img	src="../../assets/img/detail.png" title="voir" title="voir"></a> 
+													</td>
+												}
+												@if(brouillon.getValide()==3){
+													<td>Livrée</td>
+													<td>
+														<a class="voir" rel="@brouillon.getId()" href="javascript:;"><img	src="../../assets/img/detail.png" title="voir" title="voir"></a> 
+													</td>
+												}
+
+										</tr>
+										
+										
+										
+										
+										}
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<!-- END PORTLET-->
+					</div>
+				
+				</div>
+					
+				</div>
+			
+			
+			
+				
+			
+			
+			
+			</div>
+
+
+
+ <div class="modal fade" id="large1" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	               <div class="">
+	                      <div class="modal-content">
+							<!-- BEGIN FORM-->
+								<div class="row">
+								<div class="col-md-12">
+									<!-- BEGIN VALIDATION STATES-->
+									<div class="portlet box purple modal-header">
+										<div class="portlet-title">
+											<div class="caption">
+												<i class="fa fa-user"></i>Détails de la participatiant
+											</div>
+											
+										</div>
+									</div>
+									<div class="portlet-body modal-body form" id="msg1">
+											<!-- BEGIN FORM-->
+											<form id="form2" class="form-horizontal">
+												
+											<div class="form-actions">
+												
+											
+														<table class="table table-striped table-hover table-bordered"
+									id="sample_editable_1">
+
+									<thead>
+										<tr>
+                                    		<td width="200px"><strong>Désignation</strong></td>
+                                    
+                                    		<td  width="50px"><strong>P.P.H</strong></td>
+                                    		<td width="200px"><strong>P.P.V</strong></td>
+                                    		<td width="50px"><strong>Remise</strong></td>
+                                    		<td width="200px"><strong>Unité gratuite</strong></td>
+                                    
+                                   			 <td width="200px"><strong>Quantité Souhaitée</strong></td>
+                                    		<td width="200px"><strong>Total Remisé</strong></td>
+                                    		<td width="200px"><strong>Total Sans Remise</strong></td>
+                                    		<td width="200px"><strong>Total En P.P.V</strong></td>
+                                    		<td ></td>
+                                		</tr>
+										
+									</thead>
+									<tbody id="detailsBrouillon">
+										
+									</tbody>
+								</table>
+							
+														<button type="button" class="btn default" onclick="this.form.reset()" data-dismiss="modal">Fermer</button>
+													
+												
+											</div>
+										</form><!-- END FORM-->
+									</div>
+								</div>
+					<!-- END VALIDATION STATES-->
+						</div>
+					</div>
+			         
+	           </div>
+	                        <!-- /.modal-content -->
+	       </div>
+	    
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="large2" tabindex="-1"
+												role="dialog" aria-labelledby="myModalLabel"
+												aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal"
+																aria-hidden="true"></button>
+															<h4 class="modal-title">Gestion des Participatiants</h4>
+														</div>
+														<div class="modal-body" id="msg3"></div>
+
+													</div>
+													<!-- /.modal-content -->
+												</div>
+												<!-- /.modal-dialog -->
+											</div>
+											<div class="modal fade" id="ajax2" role="basic"
+												aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-body">
+															<img
+																src="../../assets/admin/layout3/img/loading-spinner-blue.gif"
+																alt="" class="loading"> <span id="msgRi"></span>
+														</div>
+													</div>
+												</div>
+											</div>
+						
+
+	
+	<!-- BEGIN QUICK SIDEBAR -->
+	<a href="javascript:;" class="page-quick-sidebar-toggler"><i class="icon-close"></i></a>
+	<!-- END QUICK SIDEBAR -->
+
+			<!-- END PAGE HEADER-->
+		</div>
+	</div>
+</div>
+	<!-- END CONTENT -->
+	<!-- BEGIN QUICK SIDEBAR -->
+	<!-- END QUICK SIDEBAR -->
+
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<div class="page-footer">
+	<div class="page-footer-inner">
+		 2017 &copy; LOGILAN MAROC.
+	</div>
+	<div class="scroll-to-top">
+		<i class="icon-arrow-up"></i>
+	</div>
+</div>
+<!-- END FOOTER -->
+<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+<!-- BEGIN CORE PLUGINS -->
+<!--[if lt IE 9]>
+<script src="../../assets/global/plugins/respond.min.js"></script>
+<script src="../../assets/global/plugins/excanvas.min.js"></script> 
+<![endif]-->
+<script src="../../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+<!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+<script src="../../assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+<!-- END CORE PLUGINS -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="../../assets/global/plugins/flot/jquery.flot.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/flot/jquery.flot.resize.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/flot/jquery.flot.categories.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery.pulsate.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap-daterangepicker/moment.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
+<script type="text/javascript" src="../../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<!-- IMPORTANT! fullcalendar depends on jquery-ui.min.js for drag & drop support -->
+<script src="../../assets/global/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/fullcalendar/lib/moment.min.js"></script>
+<script src="../../assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
+
+
+
+<!-- END PAGE LEVEL PLUGINS -->
+
+
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="../../assets/global/plugins/toastr-master/toastr.js"></script>
+
+<script src="../../assets/global/scripts/metronic.js" type="text/javascript"></script>
+<script src="../../assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
+<script src="../../assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
+<script src="../../assets/admin/layout/scripts/demo.js" type="text/javascript"></script>
+<script src="../../assets/admin/pages/scripts/index.js" type="text/javascript"></script>
+<script src="../../assets/admin/pages/scripts/tasks.js" type="text/javascript"></script>
+<script src="../../assets/admin/pages/scripts/notification.js" type="text/javascript"></script>
+<script src="../../assets/admin/pages/scripts/calendarAdmin.js"></script>
+<script src="../../assets/admin/pages/scripts/components-pickers.js"></script>
+<script type="text/javascript" src="../../assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="../../assets/global/plugins/datatables/extensions/Responsive/js/dataTables.responsive.js"></script>
+<script type="text/javascript" src="../../assets/global/plugins/datatables/extensions/ColVis/js/dataTables.colVis.js"></script>
+
+
+
+
+
+
+<!-- END PAGE LEVEL SCRIPTS -->
+<!-- amCharts javascript sources -->
+		<script type="text/javascript" src="../../assets/amcharts/amcharts.js"></script>
+	<script type="text/javascript" src="../../assets/amcharts/serial.js"></script>
+	<script type="text/javascript" src="../../assets/amcharts/light.js"></script>
+	<script type="text/javascript" src="../../assets/amcharts/funnel.js"></script>
+	<script type="text/javascript" src="../../assets/amcharts/pie.js"></script>
+	<script type="text/javascript" src="../../assets/amcharts/charts_amcharts.js"></script>
+    <!-- amCharts javascript code -->
+<script type="text/javascript">
+
+function DemandeEdit(id){
+	var value=1;
+    if (confirm("Etes-vous sur de vouloir modifier votre brouillon ?") == false) {
+        return;
+    }
+	$.ajax({
+        type : "POST",
+        data : {
+        	id : id,
+        	value : value
+        },
+		url : "/DemandeUpdateBrouillon",
+        dataType : 'json',
+        success : function(response) {
+        	$("#ajax2").modal("hide");
+        	$("#msg3").html("Demande de modification envoyer");
+			$("#large2").modal("show");
+			setTimeout(function() {$("#large2").modal("hide");}, 1000);
+			var i=1;
+			setTimeout(function() {	document.location="/brouillons";}, 1000);
+			
+		},
+		error : function(request, status, error){}
+		
+});
+}
+
+
+function edit(id){
+	document.location="/modifierBrouillonPh/"+id;
+}
+
+
+function DemandeDelete(id){
+	
+    if (confirm("Etes-vous sur de vouloir supprimer votre brouillon ?") == false) {
+        return;
+    }
+    var value=1;
+	$.ajax({
+        type : "POST",
+        data : {
+        	id : id,
+        	value : value
+        },
+		url : "/DemandeDeleteBrouillon",
+        dataType : 'json',
+        success : function(response) {
+        	$("#ajax2").modal("hide");
+        	$("#msg3").html("Demande de supprission envoyer");
+			$("#large2").modal("show");
+			setTimeout(function() {$("#large2").modal("hide");}, 1000);
+			
+			setTimeout(function() {	document.location="/brouillons";}, 1000);
+			
+		},
+		error : function(request, status, error){}
+		
+});
+}
+
+
+
+var TableEditable = function () {
+
+    var handleTable = function () {
+
+		var table = $('#sample_editable_1');
+		var deleteRows= $('#deleteRows');
+		
+        var oTable = table.dataTable({
+            "lengthMenu": [
+                [-1, 5, 15, 20],
+                ["TOUS", 5, 15, 20] 
+            ],
+            "pageLength": 15,
+
+            "language": {
+            	url: "//cdn.datatables.net/plug-ins/1.10.15/i18n/French.json"
+            },
+            "columnDefs": [{ // set default column settings
+                'orderable': true,
+                'targets': [0]
+            }, {
+                "searchable": true,
+                "targets": [0]
+            }],
+            "order": [
+                [0, "asc"]
+            ] // set first column as a default sort by asc
+			
+        });
+			
+
+        var tableWrapper = $("#sample_editable_1_wrapper");
+        var nEditing = null;
+        var nNew = false;
+        
+        
+        table.on('click', '.delete', function (e) {
+            e.preventDefault();
+            if (confirm("Etes-vous sur de vouloir supprimer la ligne ?") == false) {
+                return;
+            }
+            var id = $(this).attr('rel');
+            var nRow = $(this).parents('tr')[0];
+            oTable.fnDeleteRow(nRow);
+            $.ajax({
+    	        type : "POST",
+				data : {
+    	        	id : id,
+    	        },
+    	        url : "/deleteBrouillon",
+    	        dataType : 'json',
+    	        success : function(response) {
+				
+				},
+    	        error : function(request, status, error) {
+    	        }
+				
+    	    });	
+            
+        });
+        
+        
+        
+        
+        
+		table.on('click', '.voir', function (e) {
+            e.preventDefault();
+			var id = $(this).attr('rel');
+            
+           
+            
+				$.ajax({
+        	        type : "POST",
+        	        data : {
+        	        	id : id,
+        	        },
+					url : "/getBrouillonJson",
+        	        dataType : 'json',
+        	        success : function(response) {
+						var tablehtml="";
+        	        	
+						console.log(response);
+						for(var i=0;i<response.propoBrouillons.length;i++){
+							tablehtml=tablehtml+'<tr>';
+							tablehtml=tablehtml+'<td >'+response.propoBrouillons[i].produit.nom+'</td>';
+							tablehtml=tablehtml+'<td align="right">'+response.propoBrouillons[i].produit.pph.toFixed(2)+'</td>';
+							tablehtml=tablehtml+'<td align="right">'+response.propoBrouillons[i].produit.prix.toFixed(2)+'</td>';
+							if(response.offre.propositions[i].typeOffre==1){
+								tablehtml=tablehtml+'<td align="right">'+response.offre.propositions[i].remise+'%</td>';
+								tablehtml=tablehtml+'<td align="right">0</td>';
+							}else if(response.offre.propositions[i].typeOffre==2){
+								tablehtml=tablehtml+'<td align="right">0</td>';
+								tablehtml=tablehtml+'<td align="right">'+response.offre.propositions[i].unitGratuit+'</td>';
+							}else{
+								tablehtml=tablehtml+'<td align="right">0</td>';
+								tablehtml=tablehtml+'<td align="right">0</td>';
+							}
+							tablehtml=tablehtml+'<td align="right">'+response.propoBrouillons[i].qte+'</td>';
+							tablehtml=tablehtml+'<td align="right">'+response.propoBrouillons[i].totalRemise.toFixed(2)+'</td>';
+							tablehtml=tablehtml+'<td align="right">'+response.propoBrouillons[i].totalSansRemise.toFixed(2)+'</td>';
+							tablehtml=tablehtml+'<td align="right">'+response.propoBrouillons[i].totalPPV.toFixed(2)+'</td>';
+							tablehtml=tablehtml+'<td ></td>';
+							tablehtml=tablehtml+'</tr>';
+						}
+						tablehtml=tablehtml+'<tr><td></td><td></td><td></td><td></td><td>Total Remisé</td ><td align="right">'+response.totalRemise.toFixed(2)+'</td><td></td><td></td><td></td><td></td></tr>';
+						tablehtml=tablehtml+'<tr><td></td><td></td><td></td><td></td><td>Total Sans Remise</td><td align="right">'+response.totalSansRemise.toFixed(2)+'</td><td></td><td></td><td></td><td></td></tr>';
+						tablehtml=tablehtml+'<tr><td></td><td></td><td></td><td></td><td>Total Sans Remise</td><td align="right">'+response.totalPPV.toFixed(2)+'</td><td></td><td></td><td></td><td></td></tr>';
+						$("#detailsBrouillon").html(tablehtml);
+						$('#large1').modal("show");
+					},
+					error : function(request, status, error){}
+					
+		});
+		});
+		
+		
+    }
+
+    return {
+
+        init: function () {
+		handleTable();			
+				
+        }
+
+    };
+
+}();
+
+
+</script>    
+    
+
+<script>
+
+jQuery(document).ready(function() {    
+   Metronic.init(); // init metronic core componets
+   Layout.init(); // init layout
+   QuickSidebar.init(); // init quick sidebar
+Demo.init(); // init demo features
+TableEditable.init();
+  Index.init();   
+   Index.initDashboardDaterange(); // init index page's custom scripts
+   Index.initCharts(); // init index page's custom scripts
+   Index.initChat();
+   Index.initMiniCharts();
+   Tasks.initDashboardWidget();
+   ComponentsPickers.init();
+   ////Notification.init();
+   Calendar.init();
+   @if(msg!=""){
+	   $("#ajax2").modal("hide");
+		$("#msg3").html(@msg);
+		$("#large2").modal("show");
+		setTimeout(function() {$("#large2").modal("hide");}, 2000); 
+   }
+   
+   
+   
+});
+</script>
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

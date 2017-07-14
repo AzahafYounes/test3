@@ -1,0 +1,183 @@
+
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+# Home page
+GET     /                          					controllers.Application.index1()
+GET     /admin                        				controllers.Application.index()
+GET     /authentification          					controllers.Authentification.getAuthentification()
+GET     /LogiPharm		          					controllers.Authentification.getLogiPharm()
+GET     /WinHosp		          					controllers.Authentification.getWinHosp()
+GET     /WinDistr		          					controllers.Authentification.getWinDistr()
+GET     /WinCom			          					controllers.Authentification.getWinCom()
+POST    /authentification_ok       					controllers.Authentification.authentif()
+GET     /authentification_ok                        controllers.Application.index()
+#inscriptions
+GET     /prix                   					controllers.Application.getInscription() 
+
+#utilisateurs
+GET    	/allUsers								controllers.UserAccount.getAllUsers()
+POST   	/addNewUser								controllers.UserAccount.addNewUser()
+POST   	/updateUser								controllers.UserAccount.updateUser()
+POST   	/deleteUser								controllers.UserAccount.deleteUser()
+POST   	/getUserJson							controllers.UserAccount.getUserJson()
+POST	/updateStatus							controllers.UserAccount.updateStatus()
+POST	/updateValide							controllers.BrouillonActions.updateValide()
+
+##Notifications
+GET		/notification							controllers.NotificationActions.getNotification()
+GET     /notifications							controllers.NotificationActions.getAllNotifs()
+POST    /getTypes								controllers.NotificationActions.getTypes()
+POST    /addNewNotif							controllers.NotificationActions.addNewNotif()
+POST    /updateNotif							controllers.NotificationActions.updateNotif()
+POST    /deleteNotif							controllers.NotificationActions.deleteNotif()
+POST	/getNotifications						controllers.NotificationActions.getNotifications()
+
+
+#Observations
+GET   /observations								controllers.ObservationActions.getObservationPage()
+POST  /sendObservation							controllers.ObservationActions.sendObservation()
+
+#Notifications(see all)
+GET		/notifs									controllers.NotificationActions.getNotifs()
+
+#action notif
+POST /modNot_ok									controllers.NotificationActions.setNotifLu()
+POST /getNotifSize								controllers.NotificationActions.getNotifSize()
+POST /createNotifs								controllers.NotificationActions.createNotifs()
+POST /addEcheance								controllers.NotificationActions.addEcheance(idNotif:Integer, idUser : Integer)
+POST /addRDV 									controllers.NotificationActions.addRDV(idNotif:Integer, idUser : Integer)
+POST /setNotifFalse								controllers.NotificationActions.setNotifFalse()
+
+
+#officines
+GET    /officines									controllers.OfficineActions.getAllOfficine()
+POST   	/officinesJSON								controllers.OfficineActions.getAllOfficineJSON()
+POST   	/addNewOfficine								controllers.OfficineActions.addNewOfficine()
+POST   	/updateOfficine								controllers.OfficineActions.updateOfficine()
+POST   	/updateOfficine1							controllers.OfficineActions.updateOfficine1()
+
+POST   	/deleteOfficine								controllers.OfficineActions.deleteOfficine()
+POST   	/getOfficineJson							controllers.OfficineActions.getOfficineJson()
+#POST	/updateStatus								controllers.OfficineActions.updateStatus()
+
+#Groupofficines
+GET    	/groupofficines								controllers.GroupOfficineActions.getAllGroupOfficine()
+POST   	/addNewGroupOfficine						controllers.GroupOfficineActions.addNewGroupOfficine()
+GET   	/updateGroupOfficine						controllers.GroupOfficineActions.updateGroupOfficine()
+POST   	/deleteGroupOfficine						controllers.GroupOfficineActions.deleteGroupOfficine()
+POST   	/getGroupOfficineJson						controllers.GroupOfficineActions.getGroupOfficineJson()
+GET		/add										controllers.GroupOfficineActions.PageAjouterGroupOfficine()
+POST    /modifier_ok                                controllers.GroupOfficineActions.modifier()
+POST    /addOfficineToGroup_ok                      controllers.GroupOfficineActions.addOfficineToGroup()
+POST    /addOfficineToGroup_ok1                     controllers.GroupOfficineActions.addOfficineToGroup1()
+GET     /modifierGroup/:id							controllers.GroupOfficineActions.modifierGroupOfficine(id:String)
+GET    	/monGroupe								    controllers.GroupOfficineActions.getMonGroupe()
+POST   	/addMonGroupe								controllers.GroupOfficineActions.addMonGroupe()
+POST   	/updatemongroupe   							controllers.GroupOfficineActions.updatemongroupe()
+POST   	/deleteOfficinetoGroup						controllers.GroupOfficineActions.deleteOfficinetoGroup()
+
+
+
+#offres
+GET    	/offres										controllers.OffreActions.getAllOffres()
+POST   	/addNewOffre								controllers.OffreActions.addNewOffre()
+POST   	/updateOffre								controllers.OffreActions.updateOffre()
+POST   	/deleteOffre								controllers.OffreActions.deleteOffre()
+POST   	/deleteOffre2								controllers.OffreActions.deleteOffre2()
+POST   	/getOffreJson								controllers.OffreActions.getOffreJson()
+GET		/addOffre									controllers.OffreActions.PageAjouterOffre()
+GET		/modifierOffre/:id							controllers.OffreActions.PageModifierOffre(id:String) 
+POST    /publier                                    controllers.OffreActions.publier()
+POST    /chercherOffre                              controllers.OffreActions.chercherOffre()
+POST    /chercherOffrePh                            controllers.OffreActions.chercherOffrePh()
+GET     /LivraisonOffre/:id                     	controllers.OffreActions.livraisonOffre(id:String)
+GET     /LivrerBrouillonPh/:id                     	controllers.OffreActions.livraisonBrouillonPh(id:String)
+#GET     /ParticipationOffre/:id					controllers.OffreActions.ParticipationOffre(id:String)
+POST    /livrer                                     controllers.OffreActions.livrer()
+POST	/updatePublie								controllers.OffreActions.updatePublie()
+
+#Brouillons
+GET     /PartiperOffre/:id                          controllers.BrouillonActions.PageaddNewBrouillon(id:String)
+POST     /addNewBrouillon1                          controllers.BrouillonActions.AjouterNewBrouillons1()
+POST     /editNewBrouillon1                         controllers.BrouillonActions.editNewBrouillon1()
+POST     /addNewBrouillon                           controllers.BrouillonActions.AjouterNewBrouillons()
+GET    	/brouillons									controllers.BrouillonActions.getAllBrouillons()
+GET     /PartiperMonOffre                           controllers.BrouillonActions.PartiperMonOffre()
+POST   	/getBrouillonJson   						controllers.BrouillonActions.getBrouillonJson()
+POST   	/getBrouillonsJson   						controllers.BrouillonActions.getBrouillonsJson()
+POST    /deleteBrouillon  							controllers.BrouillonActions.deleteBrouillon()   
+POST   	/DemandeUpdateBrouillon   					controllers.BrouillonActions.DemandeUpdateBrouillon()
+POST   	/DemandeDeleteBrouillon   					controllers.BrouillonActions.DemandeDeleteBrouillon()
+GET     /modifierBrouillonPh/:id                    controllers.BrouillonActions.modifierBrouillonPh(id:String)
+
+#propositions
+POST /addProposition_ok  							controllers.PropositionActions.addNewProposition()
+POST /deleteProposition  							controllers.PropositionActions.deleteProposition()   
+POST /addProposition_okM                			controllers.PropositionActions.addNewPropositionModifier()
+POST /calculePropo                                  controllers.PropositionActions.calculePropo()
+GET   /calculeProp                                  controllers.PropositionActions.calculeProp()
+
+
+
+
+#commande
+GET  /verifierOffre/:id                            controllers.BrouillonActions.VerifierOffre(id:String)
+
+#fournisseurs
+GET    	/fournisseurs								controllers.FournisseurAccount.getAllFournisseurs()
+POST   	/addNewFournisseur							controllers.FournisseurAccount.addNewFournisseur()
+POST   	/updateFournisseur							controllers.FournisseurAccount.updateFournisseur()
+POST   	/deleteFournisseur							controllers.FournisseurAccount.deleteFournisseur()
+POST   	/getFournisseurJson							controllers.FournisseurAccount.getFournisseurJson()
+#POST  	/fournisseur								controllers.FournisseurAccount.getFournisseur()
+GET    	/listFournisseurPh							controllers.FournisseurAccount.getAllFournisseursPh()
+POST   	/importFournisseurs            				controllers.FournisseurAccount.importFournisseurs()
+
+#formes
+GET    	/formes										controllers.FormeActions.getAllFormes()
+POST   	/addNewForme								controllers.FormeActions.addNewForme()
+POST   	/updateForme								controllers.FormeActions.updateForme()
+POST   	/deleteForme								controllers.FormeActions.deleteForme()
+POST   	/getFormeJson								controllers.FormeActions.getFormeJson()
+#POST  	/forme										controllers.FormeActions.getForme()
+POST   	/importFormes            				    controllers.FormeActions.importFormes()
+
+#familleTarif
+GET    	/familleTarifs								controllers.FamilleTarifAction.getAllFamilleTarifs()
+POST   	/addNewFamilleTarif							controllers.FamilleTarifAction.addNewFamilleTarif()
+POST   	/updateFamilleTarif							controllers.FamilleTarifAction.updateFamilleTarif()
+POST   	/deleteFamilleTarif							controllers.FamilleTarifAction.deleteFamilleTarif()
+POST   	/getFamilleTarifJson						controllers.FamilleTarifAction.getFamilleTarifJson()
+#POST  	/familleTarif								controllers.FamilleTarifAction.getFamilleTarif()
+
+
+#Situation
+GET    	/situation									controllers.RegelementActions.getSituation()
+GET     /DetailSituation/:id						controllers.RegelementActions.DetailSituation(id:String)
+POST   	/getSituationJson   						controllers.RegelementActions.getSituationJson()
+POST    /initialisation                             controllers.RegelementActions.initialisation()
+POST    /getSituationOfficineJson        			controllers.RegelementActions.getSituationOfficineJson()
+#Produits
+GET    	/Produits									controllers.ProduitActions.getAllProduit()
+GET    	/Produits/:caractere						controllers.ProduitActions.getByCaractere(caractere:String)
+GET    	/Produitsfiltre/:caractere					controllers.ProduitActions.getByFiltre(caractere:String)
+POST   	/addNewProduit								controllers.ProduitActions.addNewProduit()
+POST  	/updateProduit								controllers.ProduitActions.updateProduit()
+POST   	/deleteProduit								controllers.ProduitActions.deleteProduit()
+POST   	/getProduitJson								controllers.ProduitActions.getProduitJson()
+POST   	/importProduits            					controllers.ProduitActions.importProduits()
+#GET  	/getProduit									controllers.ProduitActions.getProduit(id)
+GET    	/listProdPh									controllers.ProduitActions.getAllProduitPh()
+GET    	/listProdPh/:caractere						controllers.ProduitActions.getByCaractere(caractere:String)
+POST    /produitByFournisseur                       controllers.OffreActions.getProduitsByFournisseur()
+#logedUser
+GET    	/accountSettings							controllers.UserAccount.accountSettings()
+POST    /updateInfos								controllers.UserAccount.updateGenInformation()
+POST    /updatePass									controllers.UserAccount.updatePass()
+POST	/updateProfilePicture						controllers.UserAccount.updateProfilePicture()
+
+POST    /recuperation_ok           					controllers.Recuperation.recup()
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               				controllers.Assets.at(path="/public", file)
+#GET    /*file               						controllers.Assets.at(path="/public/comingsoon/index.html", file)

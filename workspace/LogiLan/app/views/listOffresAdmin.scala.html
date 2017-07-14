@@ -1,0 +1,1286 @@
+@(logedUser : Utilisateur, produits:List[Produit],fournisseurs:List[Fournisseur],users:List[Utilisateur],
+officines:List[Officine],groupe:List[GroupOfficine],offres:List[OffreOfficine], notifications: List[UserNotif])
+
+<!DOCTYPE html>
+
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="fr">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+<meta charset="utf-8" />
+<title>LogiEchange | Offres Pour Officine</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<meta content="" name="description" />
+<meta content="" name="author" />
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+<link
+	href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all"
+	rel="stylesheet" type="text/css" />
+<link
+	href="../../assets/global/plugins/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css" />
+<link
+	href="../../assets/global/plugins/simple-line-icons/simple-line-icons.min.css"
+	rel="stylesheet" type="text/css" />
+<link href="../../assets/global/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet" type="text/css" />
+
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+
+<!-- <link href="../../assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+ -->
+<link
+	href="../../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css"
+	rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css"
+	href="../../assets/global/plugins/toastr-master/build/toastr.css" />
+
+<!-- END GLOBAL MANDATORY STYLES -->
+<!-- BEGIN PAGE LEVEL STYLES -->
+<link rel="stylesheet" type="text/css"
+	href="../../assets/global/plugins/select2/select2.css" />
+<link rel="stylesheet" type="text/css"
+	href="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css" />
+<!-- END PAGE LEVEL STYLES -->
+<!-- BEGIN THEME STYLES -->
+<link href="../../assets/global/css/components.css"
+	id="style_components" rel="stylesheet" type="text/css" />
+<link href="../../assets/global/css/plugins.css" rel="stylesheet"
+	type="text/css" />
+<link href="../../assets/admin/layout/css/layout.css" rel="stylesheet"
+	type="text/css" />
+<link id="style_color"
+	href="../../assets/admin/layout/css/themes/darkblue.css"
+	rel="stylesheet" type="text/css" />
+<link href="../../assets/admin/layout/css/custom.css" rel="stylesheet"
+	type="text/css" />
+<!-- END THEME STYLES -->
+<link rel="icon" href="../../assets/favicon.ico" />
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<!-- DOC: Apply "page-header-fixed-mobile" and "page-footer-fixed-mobile" class to body element to force fixed header or footer in mobile devices -->
+<!-- DOC: Apply "page-sidebar-closed" class to the body and "page-sidebar-menu-closed" class to the sidebar menu element to hide the sidebar by default -->
+<!-- DOC: Apply "page-sidebar-hide" class to the body to make the sidebar completely hidden on toggle -->
+<!-- DOC: Apply "page-sidebar-closed-hide-logo" class to the body element to make the logo hidden on sidebar toggle -->
+<!-- DOC: Apply "page-sidebar-hide" class to body element to completely hide the sidebar on sidebar toggle -->
+<!-- DOC: Apply "page-sidebar-fixed" class to have fixed sidebar -->
+<!-- DOC: Apply "page-footer-fixed" class to the body element to have fixed footer -->
+<!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
+<!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
+<body class="page-header-fixed page-quick-sidebar-over-content ">
+	<!-- BEGIN HEADER -->
+	<div class="page-header -i navbar navbar-fixed-top">
+		<!-- BEGIN HEADER INNER -->
+		<div class="page-header-inner">
+			<!-- BEGIN LOGO -->
+			<div class="page-logo">
+				<a href="/"> <img
+					src="../../assets/admin/layout/img/logo-big-white.png" width="55%"
+					alt="logo" class="logo-default" />
+				</a>
+				<div class="menu-toggler sidebar-toggler hide">
+					<!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+				</div>
+			</div>
+			<!-- END LOGO -->
+			<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+			<a href="javascript:;" class="menu-toggler responsive-toggler"
+				data-toggle="collapse" data-target=".navbar-collapse"> </a>
+			<!-- END RESPONSIVE MENU TOGGLER -->
+			<!-- BEGIN TOP NAVIGATION MENU -->
+			<div class="top-menu">
+				<ul class="nav navbar-nav pull-right">
+					<!-- BEGIN NOTIFICATION DROPDOWN -->
+					<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+					
+				
+					
+					
+					<li class="dropdown dropdown-user"><a href="#"
+						class="dropdown-toggle" data-toggle="dropdown"
+						data-hover="dropdown" data-close-others="true"> <img alt=""
+							class="img-circle" src="@logedUser.getPhoto()" /> <span
+							class="username username-hide-on-mobile">
+								@logedUser.getNom() @logedUser.getPrenom() </span> <i
+							class="fa fa-angle-down"></i>
+					</a>
+						<ul class="dropdown-menu dropdown-menu-default">
+							<li><a href="/accountSettings"> <i class="icon-user"></i>
+									Mon profil
+							</a></li>
+
+							<li class="divider"></li>
+							<li><a href="@routes.Authentification.getAuthentification()">
+									<i class="icon-key"></i> Déconnexion
+							</a></li>
+						</ul></li>
+
+				</ul>
+			</div>
+			<!-- END TOP NAVIGATION MENU -->
+		</div>
+		<!-- END HEADER INNER -->
+	</div>
+	<!-- END HEADER -->
+	<div class="clearfix"></div>
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container">
+		<!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar-wrapper">
+			<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+			<!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+			<div class="page-sidebar navbar-collapse collapse">
+				<!-- BEGIN SIDEBAR MENU -->
+				<!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+				<!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+				<!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+				<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+				<!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+				<!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+				<ul class="page-sidebar-menu " data-keep-expanded="false"
+					data-auto-scroll="true" data-slide-speed="200">
+					<!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
+					<li class="sidebar-toggler-wrapper">
+						<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+						<div class="sidebar-toggler"></div> <!-- END SIDEBAR TOGGLER BUTTON -->
+					</li>
+					<!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
+					<li class="sidebar-search-wrapper">
+						<!-- BEGIN RESPONSIVE QUICK SEARCH FORM --> <!-- DOC: Apply "sidebar-search-bordered" class the below search form to have bordered search box -->
+						<!-- DOC: Apply "sidebar-search-bordered sidebar-search-solid" class the below search form to have bordered & solid search box -->
+						<form class="sidebar-search " action="" method="GET">
+							<a href="javascript:;" class="remove"> <i class="icon-close"></i>
+							</a>
+							<div class="input-group">
+								
+							</div>
+						</form> <!-- END RESPONSIVE QUICK SEARCH FORM -->
+					</li>
+					
+					 
+
+					<li ><a href="javascript:;"> <i class="fa fa-cogs"></i> <span
+							class="title">Paramétrage</span> <span class="selected"></span> <span class="arrow open"></span>
+					</a>
+						<ul class="sub-menu">
+							<li ><a href="/allUsers">Utilisateurs</a></li>
+							 
+							<li><a href="/Produits/A">Produits</a></li>
+							<li ><a href="/familleTarifs">Familles Tarifaires</a></li>
+							<li><a href="/formes">Formes</a></li>
+							<li><a href="/fournisseurs">Fournisseurs</a></li>
+							
+						</ul></li>
+						<li ><a href="javascript:;"> <i class="fa fa-street-view"></i> <span
+							class="title">Officine</span> <span class="arrow"></span>
+					</a>
+						<ul class="sub-menu">
+							<li><a href="/officines">Officine</a></li>
+							<li ><a href="/groupofficines">Groupe des officines</a></li>
+						</ul></li>
+						<li class="active"><a href="/offres"> <i class="fa fa-edit"></i> <span
+							class="title">Gestion des offres</span>
+					</a></li>
+					<li><a href="/brouillons"> <i class="fa fa-eye"></i> <span
+							class="title">Historiques</span>
+					</a></li>
+					<li ><a href="/situation"> <i class="fa fa-briefcase"></i> <span
+							class="title">Situation</span> <span class="arrow"></span>
+					</a>
+						</li>
+						<li ><a href="/admin"> <i class="icon-home"></i> <span
+							class="title">Tableau de Bord</span> <span class="arrow"></span>
+					</a>
+						</li>
+					<!-- END ANGULARJS LINK -->
+				</ul>
+				<!-- END SIDEBAR MENU -->
+			</div>
+		</div>
+		<!-- END SIDEBAR -->
+		<!-- BEGIN CONTENT -->
+		<div class="page-content-wrapper">
+		<div class="page-content">
+			<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+			<!-- /.modal -->
+			<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+			<!-- BEGIN PAGE HEADER-->
+			<div class="page-bar">
+				<h3 class="page-title">
+				ESPACE OFFICINE | OFFRES
+				</h3>
+				<ul class="page-breadcrumb">
+					<li>
+						<i class="fa fa-home"></i>
+						<a href="/admin">Home</a>
+						<i class="fa fa-angle-right"></i>
+					</li>
+					<li>
+						<a href="#">GESTION DES OFFRES</a>
+					</li>
+				</ul>
+			</div>
+			<div class="clearfix">
+			</div>
+			<div class="row">
+					<div class="col-md-12 ">
+						<!-- BEGIN PORTLET-->
+						<div class="portlet  box blue-hoki">
+
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-edit"></i>Recherche Avancée
+								</div>
+								<div class="tools">
+									<a   class="collapse"
+										data-original-title="" title=""> </a>
+								</div>
+							</div>
+							<div class="portlet-body" id="haa" style="display: none; ">
+								<div class="row form-group">
+									
+									<div class="col-md-4">
+										<label class="control-label">Produits:</label>
+										<div>
+											<select class="form-control select2me" name="produit"
+												id="produit">
+												<option value="0">Selectionner Produit...</option>
+												@for(produit<-produits){
+												<option value="@produit.getId()">@produit.getNom()</option>
+												}
+											</select>
+										</div>
+									</div>
+									<div class="col-md-2">
+										<label
+											style="background-image: url('../images/sprite.png'); background-repeat: no-repeat; -webkit-font-smoothing: antialiased;"
+											class="control-label">Fournisseurs:</label>
+										<div>
+											<select class="form-control select2me" name="fournisseur"
+												id="fournisseur">
+												<option value="0">Selectionner Fournisseur...</option>
+												@for(fournisseur<-fournisseurs){
+												<option value="@fournisseur.getId()">@fournisseur.getNom()</option>
+												}
+											</select>
+										</div>
+									</div>
+									<div class="col-md-2">
+										<label class="control-label">Officine:</label>
+										<div>
+											<select class="form-control select2me" name="officine"
+												id="officine">
+												<option value="0">Selectionner Officine...</option>
+												@for(officine<-officines){
+												<option value="@officine.getId()">@officine.getNomOfficine()</option>
+												}
+											</select>
+										</div>
+									</div>
+								</div>
+							
+									
+									<a id="searchad" href="javascript:;"
+									class="btn green btn-block margin-top-20" data-toggle="modal"
+									data-target="#myModalB">Rechercher <i
+									class="m-icon-swapright m-icon-white"></i></a>
+								<div id="loading"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+					<div class="col-md-12 ">
+						<!-- BEGIN PORTLET-->
+						<div class="portlet  box blue-hoki">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-edit"></i>Liste des offres
+								</div>
+								<div class="tools">
+									<a href="javascript:;" class="collapse"> </a>
+								</div>
+							</div>
+							<div class="portlet-body">
+								<div class="table-toolbar">
+									<div class="row">
+										<div class="col-md-8">
+											<div class="btn-group">
+												<button class="btn green"
+													Onclick="window.location.href='/addOffre'">
+													Ajouter <i class="fa fa-plus"></i>
+												</button>
+											</div>
+											
+											
+										</div>
+									</div>
+								</div>
+
+								<table class="table table-striped table-hover table-bordered"
+									id="sample_editable_1">
+
+									<thead>
+										<tr id="1">
+											<th class="table-checkbox"><input type="checkbox"
+												class="group-checkable"
+												data-set="#sample_editable_1 .checkboxes" /></th>
+
+											<th class="col-md-2">Fournisseur</th>
+
+											<th class="col-md-2">Date de l'offre</th>
+
+											<th class="col-md-1">Date limite</th>
+
+											<th class="col-md-1">Etat</th>
+											
+											<th class="col-md-1">Créer par</th>
+
+											<th class="col-md-1">Groupe</th>
+											
+											<th class="col-md-2">Actions</th>
+										</tr>
+										
+									</thead>
+									<tbody>
+										@for(offre<-offres){
+											@if(offre.getPublie()!=0 ){
+											@if(offre.getExpiree()==1){
+											<tr bgcolor="#ffb3b3">
+											
+												<td align="right" bgcolor="#ffb3b3">@offre.getId()</td>
+
+												<td bgcolor="#ffb3b3">@offre.getFournisseur().getNom()</td>
+					
+												<td align="right" bgcolor="#ffb3b3">@offre.getDateOffre().format("dd/MM/yyyy")</td>
+											
+												<td align="right" bgcolor="#ffb3b3">@offre.getDateLimit().format("dd/MM/yyyy")</td>
+	
+												<td bgcolor="#ffb3b3">@if(offre.getPublie()==1){
+														Publiée
+													}
+													@if(offre.getPublie()==0){
+														Non Publiée
+												}</td>
+
+												<td class="proType" id="@offre.getId()" bgcolor="#ffb3b3">@offre.getUser().getNom() @offre.getUser().getPrenom() 
+													@for(officine<-officines){
+														@if(officine.getUser().getId()==offre.getUser().getId()){
+															(@officine.getNomOfficine())
+														}
+													}
+												</td>
+												
+												<td bgcolor="#ffb3b3">@offre.getGroupe().getNomGroup()</td>
+
+												<td >
+													<a onclick="voir(@offre.getId())"><img	src="../../assets/img/complete.png" title="Participer" ></a> 
+													<a onclick="edit(@offre.getId())"> <img src="../../assets/img/edit.png" title="Modifier"/></a>
+													<a class="delete" href="javascript:;" rel="@offre.getId()"><img src="../../assets/img/delete.png" title="Supprimer"/> </a>
+													<a href="javascript:;" class="publier" rel="@offre.getId()"> <img src="../../assets/img/prospect1.png" title="Publier"/>	</a>
+													<a class="details" rel="@offre.getId()" href="javascript:;" > <img src="../../assets/img/detail.png" title="Détails"/>	</a>
+													<a onclick="commader(@offre.getId())"><img	src="../../assets/img/save.png" title="Commander" ></a>
+													<a onclick="livraison(@offre.getId())"><img	src="../../assets/img/cl.png" title="Livraison" ></a>
+												</td>
+											
+										</tr>
+											}
+											@if(offre.getExpiree()==2){
+											<tr>
+											<td align="right" bgcolor="#99ffcc">@offre.getId()</td>
+
+												<td bgcolor="#99ffcc">@offre.getFournisseur().getNom()</td>
+					
+												<td align="right" bgcolor="#99ffcc">@offre.getDateOffre().format("dd/MM/yyyy")</td>
+											
+												<td align="right" bgcolor="#99ffcc">@offre.getDateLimit().format("dd/MM/yyyy")</td>
+	
+												<td bgcolor="#99ffcc">@if(offre.getPublie()==1){
+														Publiée
+													}
+													@if(offre.getPublie()==0){
+														Non Publiée
+												}</td>
+
+												<td class="proType" id="@offre.getId()" bgcolor="#99ffcc">@offre.getUser().getNom() @offre.getUser().getPrenom()</td>
+												
+												<td bgcolor="#99ffcc">@offre.getGroupe().getNomGroup()</td>
+
+												
+												<td >
+													<a onclick="voir(@offre.getId())"><img	src="../../assets/img/complete.png" title="Participer" ></a> 
+													<a onclick="edit(@offre.getId())"> <img src="../../assets/img/edit.png" title="Modifier"/></a>
+													<a class="delete" href="javascript:;" rel="@offre.getId()"><img src="../../assets/img/delete.png" title="Supprimer"/> </a>
+													<a href="javascript:;" class="publier" rel="@offre.getId()"> <img src="../../assets/img/prospect1.png" title="Publier"/>	</a>
+													<a class="details" rel="@offre.getId()" href="javascript:;" > <img src="../../assets/img/detail.png" title="Détails"/>	</a>
+													<a onclick="commader(@offre.getId())"><img	src="../../assets/img/save.png" title="Commander" ></a>
+													<a onclick="livraison(@offre.getId())"><img	src="../../assets/img/cl.png" title="Livraison" ></a>
+												</td>
+										</tr>
+											}
+											@if(offre.getExpiree()==0){
+											<tr>
+											<td align="right">@offre.getId()</td>
+
+												<td>@offre.getFournisseur().getNom()</td>
+					
+												<td align="right">@offre.getDateOffre().format("dd/MM/yyyy")</td>
+											
+												<td align="right">@offre.getDateLimit().format("dd/MM/yyyy")</td>
+	
+												<td>@if(offre.getPublie()==1){
+														Publiée
+													}
+													@if(offre.getPublie()==0){
+														Non Publiée
+												}</td>
+
+												<td class="proType" id="@offre.getId()">@offre.getUser().getNom() @offre.getUser().getPrenom()</td>
+												
+												<td >@offre.getGroupe().getNomGroup()</td>
+
+												<td >
+													<a onclick="voir(@offre.getId())"><img	src="../../assets/img/complete.png" title="Participer" ></a> 
+													<a onclick="edit(@offre.getId())"> <img src="../../assets/img/edit.png" title="Modifier"/></a>
+													<a class="delete" href="javascript:;" rel="@offre.getId()"><img src="../../assets/img/delete.png" title="Supprimer"/> </a>
+													<a href="javascript:;" class="publier" rel="@offre.getId()"> <img src="../../assets/img/prospect1.png" title="Publier"/>	</a>
+													<a class="details" rel="@offre.getId()" href="javascript:;" > <img src="../../assets/img/detail.png" title="Détails"/>	</a>
+													<a onclick="commader(@offre.getId())"><img	src="../../assets/img/save.png" title="Commander" ></a>
+													<a onclick="livraison(@offre.getId())"><img	src="../../assets/img/cl.png" title="Livraison" ></a>
+												</td>
+											
+										</tr>
+											}
+											
+												
+										 
+											}else{
+												
+													<tr>
+											<td align="right">@offre.getId()</td>
+
+											<td >@offre.getFournisseur().getNom()</td>
+
+											<td align="right">@offre.getDateOffre().format("dd/MM/yyyy")</td>
+
+											<td align="right">@offre.getDateLimit().format("dd/MM/yyyy")</td>
+
+											<td>@if(offre.getPublie()==1){
+														Publiée
+													}
+													@if(offre.getPublie()==0){
+														Non Publiée
+												}</td>
+
+											<td class="proType" id="@offre.getId()">@offre.getUser().getNom() @offre.getUser().getPrenom()</td>
+											
+											<td >@offre.getGroupe().getNomGroup()</td>
+
+											<td>
+													<a onclick="voir(@offre.getId())"><img	src="../../assets/img/complete.png" title="Participer" ></a> 
+													<a onclick="edit(@offre.getId())"> <img src="../../assets/img/edit.png" title="Modifier"/></a>
+													<a class="delete" href="javascript:;" rel="@offre.getId()"><img src="../../assets/img/delete.png" title="Supprimer"/> </a>
+													<a href="javascript:;" class="publier" rel="@offre.getId()"> <img src="../../assets/img/prospect1.png" title="Publier"/>	</a>
+													<a class="details" rel="@offre.getId()" href="javascript:;" > <img src="../../assets/img/detail.png" title="Détails"/>	</a>
+													<a onclick="commader(@offre.getId())"><img	src="../../assets/img/save.png" title="Commander" ></a>
+													<a onclick="livraison(@offre.getId())"><img	src="../../assets/img/cl.png" title="Livraison" ></a>
+											</td>
+										</tr>
+												}
+											
+										}
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<!-- END PORTLET-->
+					</div>
+				
+				</div>
+					
+				</div>
+			
+			
+			
+				
+			
+			
+			
+			</div>
+
+
+
+ <div class="modal fade" id="large1" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+ 
+ 				<div class="col-md-6">
+					<!-- BEGIN BORDERED TABLE PORTLET-->
+					<div class="portlet box yellow">
+						<div class="portlet-title">
+							<div class="caption">
+								<i class="fa fa-coffee"></i>Détails des participations
+							</div>
+							<div class="tools">
+								<a href="javascript:;" class="collapse">
+								</a>
+								
+								<a href="javascript:;" class="reload">
+								</a>
+								<a href="" class="fullscreen">
+								</a>
+								
+							</div>
+						</div>
+						<div class="portlet-body">
+							<table class="table table-bordered table-hover">
+							<thead>
+										<tr id="1">
+											
+											<th class="col-md-1" >Nom de l'officine</th>
+											<th class="col-md-1" >Détails des produits</th>
+											
+										</tr>
+										
+									</thead>
+							<tbody id="detailsBrouillon">
+										
+										
+										<tr>
+											<td></td>
+											<td></td>
+											
+										</tr>
+										
+										
+										
+										
+										
+									</tbody>
+							</table>
+							<button type="button" class="btn default" onclick="this.form.reset()" data-dismiss="modal">Fermer</button>
+													
+						</div>
+					</div>
+					<!-- END BORDERED TABLE PORTLET-->
+				</div>
+			
+ 
+ 
+	               
+	       </div>
+	    
+ 
+<div class="modal fade" id="large2" tabindex="-1"
+												role="dialog" aria-labelledby="myModalLabel"
+												aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal"
+																aria-hidden="true"></button>
+															<h4 class="modal-title">Gestion des OFFRES</h4>
+														</div>
+														<div class="modal-body" id="msg3"></div>
+
+													</div>
+													<!-- /.modal-content -->
+												</div>
+												<!-- /.modal-dialog -->
+											</div>
+											<div class="modal fade" id="ajax2" role="basic"
+												aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-body">
+															<img
+																src="../../assets/admin/layout3/img/loading-spinner-blue.gif"
+																alt="" class="loading"> <span id="msgRi"></span>
+														</div>
+													</div>
+												</div>
+											</div>
+
+
+
+
+
+
+<div class="modal fade" id="myModalB" tabindex="1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" id="testmodal">
+
+
+
+			<img src='../../assets/img/loading.gif' id="imglod" />
+			<style>
+#imglod {
+	display: block;
+	margin-top: 50%;
+	margin-left: 50%;
+	vertical-align: center;
+}
+</style>
+
+
+		</div>
+
+	</div>
+
+
+
+	
+	<!-- BEGIN QUICK SIDEBAR -->
+	<a href="javascript:;" class="page-quick-sidebar-toggler"><i class="icon-close"></i></a>
+	<!-- END QUICK SIDEBAR -->
+
+			<!-- END PAGE HEADER-->
+		</div>
+	</div>
+</div>
+	<!-- END CONTENT -->
+	<!-- BEGIN QUICK SIDEBAR -->
+	<!-- END QUICK SIDEBAR -->
+
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<div class="page-footer">
+	<div class="page-footer-inner">
+		 2017 &copy; LOGILAN MAROC.
+	</div>
+	<div class="scroll-to-top">
+		<i class="icon-arrow-up"></i>
+	</div>
+</div>
+<!-- END FOOTER -->
+<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+<!-- BEGIN CORE PLUGINS -->
+<!--[if lt IE 9]>
+<script src="../../assets/global/plugins/respond.min.js"></script>
+<script src="../../assets/global/plugins/excanvas.min.js"></script> 
+<![endif]-->
+<script src="../../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+<!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+<script src="../../assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+<!-- END CORE PLUGINS -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="../../assets/global/plugins/flot/jquery.flot.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/flot/jquery.flot.resize.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/flot/jquery.flot.categories.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery.pulsate.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap-daterangepicker/moment.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
+<script type="text/javascript" src="../../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<!-- IMPORTANT! fullcalendar depends on jquery-ui.min.js for drag & drop support -->
+<script src="../../assets/global/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/fullcalendar/lib/moment.min.js"></script>
+<script src="../../assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
+
+
+
+<!-- END PAGE LEVEL PLUGINS -->
+
+
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="../../assets/global/plugins/toastr-master/toastr.js"></script>
+
+<script src="../../assets/global/scripts/metronic.js" type="text/javascript"></script>
+<script src="../../assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
+<script src="../../assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
+<script src="../../assets/admin/layout/scripts/demo.js" type="text/javascript"></script>
+<script src="../../assets/admin/pages/scripts/index.js" type="text/javascript"></script>
+<script src="../../assets/admin/pages/scripts/tasks.js" type="text/javascript"></script>
+<script src="../../assets/admin/pages/scripts/notification.js" type="text/javascript"></script>
+<script src="../../assets/admin/pages/scripts/calendarAdmin.js"></script>
+<script src="../../assets/admin/pages/scripts/components-pickers.js"></script>
+<script type="text/javascript" src="../../assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="../../assets/global/plugins/datatables/extensions/Responsive/js/dataTables.responsive.js"></script>
+<script type="text/javascript" src="../../assets/global/plugins/datatables/extensions/ColVis/js/dataTables.colVis.js"></script>
+
+
+
+
+
+<script src="../../assets/admin/pages/scripts/listFournisseurPh.js"></script>
+
+
+<!-- END PAGE LEVEL SCRIPTS -->
+<!-- amCharts javascript sources -->
+		<script type="text/javascript" src="../../assets/amcharts/amcharts.js"></script>
+	<script type="text/javascript" src="../../assets/amcharts/serial.js"></script>
+	<script type="text/javascript" src="../../assets/amcharts/light.js"></script>
+	<script type="text/javascript" src="../../assets/amcharts/funnel.js"></script>
+	<script type="text/javascript" src="../../assets/amcharts/pie.js"></script>
+	<script type="text/javascript" src="../../assets/amcharts/charts_amcharts.js"></script>
+    <!-- amCharts javascript code -->
+    
+    
+<script language="JavaScript"> 
+	
+	
+	function voir(id){
+		document.cookie="idOffre="+id;
+		document.location="/PartiperOffre/"+id;
+		
+	}
+	
+	function commader(id){
+		
+		document.location="/verifierOffre/"+id;
+		
+	}
+	function livraison(id){
+		
+		document.location="/LivraisonOffre/"+id;
+		
+	}
+	
+	
+	
+
+var TableEditable = function () {
+
+    var handleTable = function () {
+	
+        function restoreRow(oTable, nRow) {
+            var aData = oTable.fnGetData(nRow);
+            var jqTds = $('>td', nRow);
+			var id = $(jqTds[0]).find('input[type=checkbox]').val();
+			oTable.fnUpdate('<input type="checkbox" class="checkboxes" rel="" value="'+id+'">', nRow, 0, false);
+            for (var i = 1, iLen = jqTds.length; i < iLen; i++) {
+                oTable.fnUpdate(aData[i], nRow, i, false);
+            }
+
+            oTable.fnDraw();
+        }
+
+       
+
+        var table = $('#sample_editable_1');
+        
+
+        var oTable = table.dataTable({
+
+            
+            "lengthMenu": [
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] 
+            ],
+
+            
+            "pageLength": 15,
+
+            "language": {
+            	url: "//cdn.datatables.net/plug-ins/1.10.15/i18n/French.json"
+            },
+            "columnDefs": [{ // set default column settings
+                'orderable': true,
+                'targets': [0]
+            }, {
+                "searchable": true,
+                "targets": [0]
+            }],
+            "order": [
+                [0, "desc"]
+            ] // set first column as a default sort by asc
+        });
+
+        	function isBlank(str) {
+    return (!str || /^\s*$/.test(str));
+	}
+		
+	$('#sample_editable_1 #2 th').each(function(){
+		var title = $('#sample_editable_1 #1 th').eq($(this).index()).text();
+		if(title.indexOf("Actions") ==-1 && !isBlank(title))
+				$(this).html('<input type="text" class="form-control input"/>');
+	});
+	
+		oTable.api().columns().every(function () {
+		var datatableColumn = this;
+		var searchTextBoxes = $(this.header()).find('input');
+		searchTextBoxes.on('keyup change', function(){
+			datatableColumn.search(this.value).draw();
+			
+			var nNew = false;
+		});
+		searchTextBoxes.on('click', function(e){
+			e.stopPropagation();
+		});
+		
+	});
+			
+		
+		var tableWrapper = $("#sample_editable_1_wrapper");
+
+        
+        var nEditing = null;
+        var nNew = false;
+
+        
+        table.on('click', '.details', function (e) {
+            e.preventDefault();
+			var id = $(this).attr('rel');
+            
+           
+            
+				$.ajax({
+        	        type : "POST",
+        	        data : {
+        	        	id : id,
+        	        },
+					url : "/getBrouillonsJson",
+        	        dataType : 'json',
+        	        success : function(response) {
+						var tablehtml="";
+        	        	
+						console.log(response);
+						for(var i=0;i<response.length;i++){
+							tablehtml=tablehtml+'<tr>';
+							tablehtml=tablehtml+'<td>'+response[i].user.nom+' '+response[i].user.prenom+'</td>';
+							tablehtml=tablehtml+'<td>';
+							tablehtml=tablehtml+'<ul class="list-group">';
+							  
+							for(var j=0;j<response[i].propoBrouillons.length;j++){
+								tablehtml=tablehtml+'<li class="list-group-item">'+response[i].propoBrouillons[j].qte+' '+response[i].propoBrouillons[j].produit.nom+'</li>';
+							}
+							tablehtml=tablehtml+'</ul>';
+							tablehtml=tablehtml+'</td>';
+							
+							
+							
+							tablehtml=tablehtml+'</tr>';
+						}
+						
+						$("#detailsBrouillon").html(tablehtml);
+						$('#large1').modal("show");
+					},
+					error : function(request, status, error){}
+					
+		});
+		});
+        
+        table.on('click', '.participations', function (e) {
+            
+			var id = $(this).attr('rel');
+			document.location="/ParticipationOffre/"+id;
+           
+            
+				
+		});
+        
+        
+        
+        
+        
+        
+        
+        
+        $('#sample_editable_1_new').click(function (e) {
+            e.preventDefault();
+
+            if (nNew && nEditing) {
+                if (confirm("Ligne précédente non engegistée. Enregistrer maintenant ?")) {
+                    saveRow(oTable, nEditing); // save
+                    $(nEditing).find("td:first").html("Untitled");
+                    nEditing = null;
+                    nNew = false;
+
+                } else {
+                    oTable.fnDeleteRow(nEditing); // cancel
+                    nEditing = null;
+                    nNew = false;
+                    
+                    return;
+                }
+            }
+
+            var aiNew = oTable.fnAddData(['', '', '', '', '', '','','','']);
+            var nRow = oTable.fnGetNodes(aiNew[0]);
+            editRow(oTable, nRow);
+            nEditing = nRow;
+            nNew = true;
+        });
+		
+		
+		
+
+        table.on('click', '.delete', function (e) {
+            e.preventDefault();
+            if (confirm("Etes-vous sur de vouloir supprimer la ligne ?") == false) {
+                return;
+            }
+            var id = $(this).attr('rel');
+            var nRow = $(this).parents('tr')[0];
+            oTable.fnDeleteRow(nRow);
+            $.ajax({
+    	        type : "POST",
+				data : {
+    	        	id : id,
+    	        },
+    	        url : "/deleteOffre",
+    	        dataType : 'json',
+    	        success : function(response) {
+				
+				},
+    	        error : function(request, status, error) {
+    	        }
+				
+    	    });	
+            
+        });
+
+        table.on('click', '.cancel', function (e) {
+            e.preventDefault();
+            if (nNew) {
+                oTable.fnDeleteRow(nEditing);
+                nEditing = null;
+                nNew = false;
+            } else {
+                restoreRow(oTable, nEditing);
+                nEditing = null;
+            }
+        });
+
+        table.on('click', '.edit', function (e) {
+            e.preventDefault();
+
+            /* Get the row as a parent of the link that was clicked on */
+            var nRow = $(this).parents('tr')[0];
+
+            if (nEditing !== null && nEditing != nRow) {
+                /* Currently editing - but not this row - restore the old before continuing to edit mode */
+                restoreRow(oTable, nEditing);
+                editRow(oTable, nRow);
+                nEditing = nRow;
+            } else if (nEditing == nRow && this.innerHTML == "Enregistrer") {
+                /* Editing this row and want to save it */
+                saveRow(oTable, nEditing);
+                nEditing = null;
+                alert("Ligne mise à jour.");
+            } else {
+                /* No edit in progress - let's start one */
+                editRow(oTable, nRow);
+                nEditing = nRow;
+            }
+        });
+		
+		table.on('click', '.publier', function (e) {
+		if (confirm("Êtes-vous sûr de publier cette offre ?") == false) {
+                return;
+				} 
+			var id = $(this).attr('rel');
+			var nRow = $(this).parents('tr')[0];
+			
+				$.ajax({
+        	        type : "POST",
+					data : {
+        	        	id : id,
+        	        },
+        	        url : "/publier",
+        	        dataType : 'json',
+        	        success : function(response) {
+        	        	document.location="/offres";
+					},
+        	        error : function(request, status, error) {
+        	        	document.location="/offres";
+        	        }
+					
+        	    });	
+			
+			
+		
+		});
+		
+		
+		function updateRowType(v,nRow){
+		if (confirm("Êtes-vous sûr de rendre ce prospect un client ?") == false) {
+                return;
+				} 
+			$.ajax({
+        	        type : "POST",
+        	        data : {
+        	        	id : v,
+        	        },
+					url : "/rdCl",
+        	        dataType : 'json',
+        	        success : function(response) {
+						oTable.fnUpdate(response.type,nRow,5,false);
+						//oTable.fnUpdate(response.assure,nRow,6,false);
+					},
+					error : function(request, status, error){}
+					
+			});
+			
+		}
+		
+		
+		
+		
+		
+			
+			
+		
+		table.find('.group-checkable').change(function () {
+           var set = jQuery(this).attr("data-set");
+           var checked = jQuery(this).is(":checked");
+           jQuery(set).each(function () {
+                if (checked) {
+                    $(this).attr("checked", true);
+                    $(this).parents('tr').addClass("active");
+                } else {
+                    $(this).attr("checked", false);
+                    $(this).parents('tr').removeClass("active");
+                }
+            });
+            jQuery.uniform.update(set);
+        });
+		
+		
+		table.on('change', 'tbody tr .checkboxes', function () {
+            $(this).parents('tr').toggleClass("active");
+		});
+		
+		
+	
+		
+		$("#searchad").click(function (e) {
+		//$('#loadingmessage').show(); 
+			var produit=$("#produit").val();
+	
+			
+			var fournisseur=$("#fournisseur").val();
+			var officine=$("#officine").val();
+			
+			
+			
+			
+			
+			
+			
+			
+			$.ajax({
+				type:"POST",
+				data : {
+        	        	produit:produit,
+        	        	fournisseur:fournisseur,
+        	        	officine:officine
+        	        	
+        	        	
+        	        	
+        	        },
+        	        url : "/chercherOffrePh",
+        	        dataType : 'json',
+        	        success : function(response) {
+						console.log(response);
+						oTable.fnClearTable();
+						for(var i=0;i<response.length;i++){
+							var aiNew = oTable.fnAddData(['', '', '', '', '', '','','']);
+							var nRow = oTable.fnGetNodes(aiNew[i]);
+							var jqInputs = $('input', nRow);
+							  oTable.fnUpdate('<input type="checkbox" class="checkboxes" value="'+response[i].id+'"/>', nRow, 0, false);
+							 oTable.fnUpdate(response[i].nomfour , nRow, 1, false);
+							 oTable.fnUpdate(response[i].date_offre, nRow, 2, false);
+							 oTable.fnUpdate(response[i].date_limit, nRow, 3, false);
+							 if(response[i].publie==0){
+								 oTable.fnUpdate("NON", nRow, 4, false); 
+							 }else{
+								 oTable.fnUpdate("OUI", nRow, 4, false);
+							 }
+							 
+							 oTable.fnUpdate(response[i].nom+" "+response[i].prenom, nRow, 5, false);
+							 oTable.fnUpdate(response[i].nom_group, nRow, 6, false);
+							 if(response[i].iduser == @logedUser.getId()){
+								 if(response[i].complete==1){
+									 oTable.fnUpdate('<a onclick="voir('+response[i].id+')"><img	src="../../assets/img/detail.png" title="voir" title="voir"></a>  ', nRow, 7, false);
+								 }else{
+									 oTable.fnUpdate('<a onclick="voir('+response[i].id+')"><img	src="../../assets/img/detail.png" title="voir" title="voir"></a>  <a onclick="edit('+response[i].id+')"> <img src="../../assets/img/edit.png" title="Modifier"/></a><a class="delete" href="javascript:;" rel="'+response[i].id+'"><img src="../../assets/img/delete.png" title="Supprimer"/> </a><a href="javascript:;" class="publier" rel="'+response[i].id+'"> <img src="../../assets/img/cl.png" title="Publier"/></a>', nRow, 7, false);
+									  
+								 }
+								  
+							 }else{
+								 oTable.fnUpdate('<a onclick="voir('+response[i].id+')"><img	src="../../assets/img/detail.png" title="voir" title="voir"></a>  ', nRow, 7, false);
+								 
+							 }
+							 oTable.fnDraw();
+							 
+								
+								
+							
+							
+						} 
+						//$('#myModalB').hide();
+						$('#myModalB').modal('hide');
+},					error : function(request, status, error) {
+								 
+					}
+				
+			});
+			
+			
+			
+			
+		});
+	
+
+	
+		
+		
+    }
+	
+
+    return {
+
+        //main function to initiate the module
+        init: function () {
+            handleTable();
+        }
+
+    };
+
+}();
+function edit(id){
+	
+	
+	document.cookie="idOffre="+id;
+	document.location="modifierOffre/"+id;}
+
+	
+	
+	
+</script>
+
+	<script language="JavaScript"> 
+function change() 
+{ 
+
+	if(document.getElementById("haa").style.display=="none")
+	document.getElementById("haa").style.display="block";
+	else
+	document.getElementById("haa").style.display="none"
+	
+	
+	
+}
+
+
+
+
+		
+		
+	
+
+
+</script>
+
+
+    
+    
+    
+    
+<script>
+function Autoriserdelete(id){
+	if (confirm("Etes-vous sur de vouloir autoriser la supprission ?") == false) {
+        return;
+    }
+	var value=2;
+	
+	$.ajax({
+        type : "POST",
+        data : {
+        	id : id,
+        	value:value,
+        },
+		url : "/DemandeDeleteBrouillon",
+        dataType : 'json',
+        success : function(response) {
+        	
+        	$("#ajax2").modal("hide");
+        	$("#msg3").html("Demande de supprission valider");
+			$("#large2").modal("show");
+			setTimeout(function() {$("#large2").modal("hide");}, 1000);
+			var i=1;
+			setTimeout(function() {	document.location="/offres";}, 1000);
+			
+		},
+		error : function(request, status, error){
+			
+		}
+		
+});
+	
+	
+	
+	
+}
+function Autoriseredit(id){
+	if (confirm("Etes-vous sur de vouloir autoriser la modification ?") == false) {
+        return;
+    }
+	var value=2;
+	$.ajax({
+        type : "POST",
+        data : {
+        	id : id,
+        	value:value
+        },
+		url : "/DemandeUpdateBrouillon",
+        dataType : 'json',
+        success : function(response) {
+        	$("#ajax2").modal("hide");
+        	$("#msg3").html("Demande de modification valider");
+			$("#large2").modal("show");
+			setTimeout(function() {$("#large2").modal("hide");}, 1000);
+			var i=1;
+			setTimeout(function() {	document.location="/offres";}, 1000);
+			
+		},
+		error : function(request, status, error){}
+		
+});
+	
+	
+	
+	
+}
+
+jQuery(document).ready(function() {    
+   Metronic.init(); // init metronic core componets
+   Layout.init(); // init layout
+   QuickSidebar.init(); // init quick sidebar
+Demo.init(); // init demo features
+TableEditable.init();
+  Index.init();   
+   Index.initDashboardDaterange(); // init index page's custom scripts
+   Index.initCharts(); // init index page's custom scripts
+   Index.initChat();
+   Index.initMiniCharts();
+   Tasks.initDashboardWidget();
+   ComponentsPickers.init();
+   ////Notification.init();
+   Calendar.init();
+   $("[name='supprimer']").bootstrapSwitch(); 
+   $("[name='modifier']").bootstrapSwitch();
+});
+
+
+</script>
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

@@ -1,0 +1,778 @@
+@(logedUser:Utilisateur,situations:List[SituationOfficine],groupes:List[GroupOfficine],officines:List[Officine],total:Float)
+
+
+<!DOCTYPE html>
+
+
+<!--[if !IE]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+<meta charset="utf-8"/>
+<title>LOGIECHANGE | Officine</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="" name="description"/>
+<meta content="" name="author"/>
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
+<!-- END GLOBAL MANDATORY STYLES -->
+<!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+<link href="../../assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/fullcalendar/fullcalendar.print.css" rel="stylesheet" media="print"/>
+<link href="../../assets/global/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/toastr-master/build/toastr.css"/>
+<!-- END PAGE LEVEL PLUGIN STYLES -->
+<!-- BEGIN PAGE STYLES -->
+<link href="../../assets/admin/pages/css/tasks.css" rel="stylesheet" type="text/css"/>
+<!-- END PAGE STYLES -->
+<!-- BEGIN THEME STYLES -->
+<link href="../../assets/global/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
+<link id="style_color"
+	href="../../assets/admin/layout/css/themes/darkblue.css"
+	rel="stylesheet" type="text/css" />
+<link href="../../assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/media/css/jquery.dataTables.css"/>
+
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/extensions/ColVis/css/dataTables.colVis.css"/>
+
+<!-- END THEME STYLES -->
+<link rel="icon" href="../../assets/favicon.ico"/>
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
+<body class="page-header-fixed page-quick-sidebar-over-content page-sidebar-closed-hide-logo page-container-bg-solid">
+<!-- BEGIN HEADER -->
+<div class="page-header -i navbar navbar-fixed-top">
+	<!-- BEGIN HEADER INNER -->
+	<div class="page-header-inner">
+		<!-- BEGIN LOGO -->
+		<div class="page-logo">
+			<a href="/admin">
+			<img src="../../assets/admin/layout/img/logo-big-white.png" alt="logo" style="height: 30px;" class="logo-default"/>
+			</a>
+			<div class="menu-toggler sidebar-toggler hide">
+			</div>
+		</div>
+		<!-- END LOGO -->
+		<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+		<a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+		</a>
+		<!-- END RESPONSIVE MENU TOGGLER -->
+		<!-- BEGIN TOP NAVIGATION MENU -->
+		<div class="top-menu">
+			<ul class="nav navbar-nav pull-right">
+				<!-- BEGIN NOTIFICATION DROPDOWN -->
+				<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+				
+				 
+				
+				<li class="dropdown dropdown-user">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+					<img alt="" class="img-circle" src="@logedUser.getPhoto()"/>
+					<span class="username username-hide-on-mobile">
+					@logedUser.getNom() @logedUser.getPrenom() </span>
+					<i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-default">
+					 <li>
+							<a href="/accountSettings">
+							<i class="icon-user"></i> Mon profil </a>
+						</li>
+					 
+						<li class="divider">
+						</li>
+						<li>
+							<a href="@routes.Authentification.getAuthentification()">
+							<i class="icon-key"></i> Déconnexion </a>
+						</li>
+					</ul>
+				</li>
+			 
+			</ul>
+		</div>
+		<!-- END TOP NAVIGATION MENU -->
+	</div>
+	
+	<!-- END HEADER INNER -->
+</div>
+<!-- END HEADER -->
+
+<div class="clearfix">
+</div>
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN SIDEBAR -->
+	 	 <!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar-wrapper">
+			<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+			<!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+			<div class="page-sidebar navbar-collapse collapse">
+				<!-- BEGIN SIDEBAR MENU -->
+				<!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+				<!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+				<!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+				<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+				<!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+				<!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+				<ul class="page-sidebar-menu " data-keep-expanded="false"
+					data-auto-scroll="true" data-slide-speed="200">
+					<!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
+					<li class="sidebar-toggler-wrapper">
+						<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+						<div class="sidebar-toggler"></div> <!-- END SIDEBAR TOGGLER BUTTON -->
+					</li>
+					<!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
+					<li class="sidebar-search-wrapper">
+						<!-- BEGIN RESPONSIVE QUICK SEARCH FORM --> <!-- DOC: Apply "sidebar-search-bordered" class the below search form to have bordered search box -->
+						<!-- DOC: Apply "sidebar-search-bordered sidebar-search-solid" class the below search form to have bordered & solid search box -->
+						<form class="sidebar-search " action="" method="GET">
+							<a href="javascript:;" class="remove"> <i class="icon-close"></i>
+							</a>
+							<div class="input-group">
+								
+							</div>
+						</form> <!-- END RESPONSIVE QUICK SEARCH FORM -->
+					</li>
+					
+						<li ><a href="javascript:;"> <i class="fa fa-cogs"></i> <span
+							class="title">Paramétrage</span> <span class="selected"></span> <span class="arrow open"></span>
+					</a>
+						<ul class="sub-menu">
+							<li ><a href="/allUsers">Utilisateurs</a></li>
+							 
+							<li><a href="/Produits/A">Produits</a></li>
+							<li ><a href="/familleTarifs">Familles Tarifaires</a></li>
+							<li><a href="/formes">Formes</a></li>
+							<li><a href="/fournisseurs">Fournisseurs</a></li>
+							
+						</ul></li>
+						<li ><a href="javascript:;"> <i class="fa fa-street-view"></i> <span
+							class="title">Officine</span> <span class="arrow"></span>
+					</a>
+						<ul class="sub-menu">
+							<li><a href="/officines">Officine</a></li>
+							<li ><a href="/groupofficines">Groupe des officines</a></li>
+						</ul></li>
+						<li ><a href="/offres"> <i class="fa fa-edit"></i> <span
+							class="title">Gestion des offres</span>
+					</a></li>
+					<li><a href="/brouillons"> <i class="fa fa-eye"></i> <span
+							class="title">Historiques</span>
+					</a></li>
+					<li class="active"><a href="/situation"> <i class="fa fa-briefcase"></i> <span
+							class="title">Situation</span> <span class="arrow"></span>
+					</a>
+						</li>
+						<li ><a href="/admin"> <i class="icon-home"></i> <span
+							class="title">Tableau de Bord</span> <span class="arrow"></span>
+					</a>
+						</li>
+
+					
+					<!-- END ANGULARJS LINK -->
+				</ul>
+				<!-- END SIDEBAR MENU -->
+			</div>
+		</div>
+		<!-- END SIDEBAR -->
+	<!-- END SIDEBAR -->
+	<!-- BEGIN CONTENT -->
+	<div class="page-content-wrapper">
+		<div class="page-content">
+			<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+			<!-- /.modal -->
+			<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+			<!-- BEGIN PAGE HEADER-->
+			<div class="page-bar">
+				<h3 class="page-title">
+				ESPACE LOGILAN | SITUATION
+				</h3>
+				<ul class="page-breadcrumb">
+					<li>
+						<i class="fa fa-home"></i>
+						<a href="/admin">Home</a>
+						<i class="fa fa-angle-right"></i>
+					</li>
+					<li>
+						<a href="#">Espace LOGILAN</a>
+					</li>
+				</ul>
+			</div>
+			<div class="clearfix">
+			</div>
+			<div class="row">
+					<!---------------->
+					<!---------------->
+					<!---------------->
+					<!---------------->
+					<!---------------->
+					<!---------------->
+					
+					<div class="row">
+					
+					<div class="col-md-12">
+					<div class="portlet  box blue-hoki">
+						<div class="portlet-title">
+							<div class="caption">
+								<i class="fa fa-bell-o"></i>Veuillez s'il vous plaît séléctionnez l'officine
+							</div>
+							
+						</div>
+						 
+						<div class="portlet-body">
+							<div class="scroller" style="height: 100px;" data-always-visible="1" data-rail-visible="0">
+								<div class="row form-group">
+									<div class="col-md-2">
+										<label
+											style="background-image: url('../images/sprite.png'); background-repeat: no-repeat; -webkit-font-smoothing: antialiased;"
+											class="control-label">Groupes:</label>
+										<div>
+											<select class="selectpicker form-control" data-live-search="true" name="groupe"
+												id="groupe" onchange="ajouterOfficine()" >
+												
+												@for(groupe<-groupes){
+													<option value="@groupe.getId()">@groupe.getNomGroup()</option>
+												}
+												
+											</select>
+										</div>
+									</div>
+									<div class="col-md-2">
+										<label
+											style="background-image: url('../images/sprite.png'); background-repeat: no-repeat; -webkit-font-smoothing: antialiased;"
+											class="control-label">Officines:</label>
+										<div>
+											<select class="form-control select2me" data-live-search="true" name="officine"
+												id="officine" onchange="situationOfficine()">
+												
+												@for(officine<-groupes.get(0).getOfficines()){
+													<option value="@officine.getId()">@officine.getNomOfficine()</option>
+												}
+											</select>
+										</div>
+									</div>
+									
+									
+								</div>
+							</div>
+							
+							
+							
+							<div class="scroller-footer">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+					
+					
+					
+					
+					<div class="col-md-12 ">
+						<!-- BEGIN PORTLET-->
+						<div class="portlet  box blue-hoki">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-briefcase""></i>Situations 
+								</div>
+								<div class="tools">
+									<a href="javascript:;" > </a>
+								</div>
+							</div>
+							<div class="portlet-body">
+								
+
+								<table class="table table-striped table-hover table-bordered"
+									id="sample_editable_1">
+
+									<thead>
+										<tr id="1">
+											
+
+											
+
+											
+
+											<th class="col-md-1">CLIENT</th>
+											
+											<th class="col-md-1">CREDIT</th>
+											<th class="col-md-1">DEBIT</th>
+											<th class="col-md-1">SOLDE</th>
+											
+											
+										</tr>
+										
+									</thead>
+									
+									<tbody>
+										@for(situation<-situations){
+											
+											<tr>
+											
+
+											
+											
+											<td>@situation.getUserDist().getNom() @situation.getUserDist().getPrenom()</td>
+											
+											
+											<td align="right">@{"%.2f".format(situation.getTotalSortie())}</td>
+											<td align="right">@{"%.2f".format(situation.getTotalEntree())}</td>
+											@if(situation.getTotalSortie()-situation.getTotalEntree()>=(-1)){
+												<td align="right" bgcolor="#99ffcc">@{"%.2f".format(situation.getTotal().toFloat)}</td>
+											}else{
+												<td align="right" bgcolor="#ffb3b3">@{"%.2f".format(situation.getTotal().toFloat)}</td>
+											}
+												
+												
+										</tr>
+										
+										
+										
+										
+										}
+										
+										
+									</tbody>
+								</table>
+								<table border="0" class="table table-striped table-hover ">
+										<tr >
+											
+
+											<td  ></td>
+											<td ></td>
+											
+											<td ><strong> TOTAL :</strong></td>
+										
+											<td align="right" ><strong><div id="totalP">@{"%.2f".format(total)}</div></strong></td>
+												
+										</tr>
+										
+								
+								</table>
+							</div>
+						</div>
+						<!-- END PORTLET-->
+					</div>
+				
+				</div>
+					
+					
+				</div>
+			
+			
+			
+				
+			
+			
+			
+			</div>
+
+
+
+ 
+
+
+
+
+
+
+
+<div class="modal fade" id="large2" tabindex="-1"
+												role="dialog" aria-labelledby="myModalLabel"
+												aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal"
+																aria-hidden="true"></button>
+															<h4 class="modal-title">Gestion Brouillons</h4>
+														</div>
+														<div class="modal-body" id="msg3"></div>
+
+													</div>
+													<!-- /.modal-content -->
+												</div>
+												<!-- /.modal-dialog -->
+											</div>
+											<div class="modal fade" id="ajax2" role="basic"
+												aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-body">
+															<img
+																src="../../assets/admin/layout3/img/loading-spinner-blue.gif"
+																alt="" class="loading"> <span id="msgRi"></span>
+														</div>
+													</div>
+												</div>
+											</div>
+						
+
+	
+	<!-- BEGIN QUICK SIDEBAR -->
+	<a href="javascript:;" class="page-quick-sidebar-toggler"><i class="icon-close"></i></a>
+	<!-- END QUICK SIDEBAR -->
+
+			<!-- END PAGE HEADER-->
+		</div>
+	</div>
+</div>
+	<!-- END CONTENT -->
+	<!-- BEGIN QUICK SIDEBAR -->
+	<!-- END QUICK SIDEBAR -->
+
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<div class="page-footer">
+	<div class="page-footer-inner">
+		 2017 &copy; LOGILAN MAROC.
+	</div>
+	<div class="scroll-to-top">
+		<i class="icon-arrow-up"></i>
+	</div>
+</div>
+<!-- END FOOTER -->
+<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+<!-- BEGIN CORE PLUGINS -->
+<!--[if lt IE 9]>
+<script src="../../assets/global/plugins/respond.min.js"></script>
+<script src="../../assets/global/plugins/excanvas.min.js"></script> 
+<![endif]-->
+<script src="../../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+<!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+<script src="../../assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+<!-- END CORE PLUGINS -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="../../assets/global/plugins/flot/jquery.flot.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/flot/jquery.flot.resize.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/flot/jquery.flot.categories.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery.pulsate.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap-daterangepicker/moment.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
+<script type="text/javascript" src="../../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<!-- IMPORTANT! fullcalendar depends on jquery-ui.min.js for drag & drop support -->
+<script src="../../assets/global/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/fullcalendar/lib/moment.min.js"></script>
+<script src="../../assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
+
+
+
+<!-- END PAGE LEVEL PLUGINS -->
+
+
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="../../assets/global/plugins/toastr-master/toastr.js"></script>
+
+<script src="../../assets/global/scripts/metronic.js" type="text/javascript"></script>
+<script src="../../assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
+<script src="../../assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
+<script src="../../assets/admin/layout/scripts/demo.js" type="text/javascript"></script>
+<script src="../../assets/admin/pages/scripts/index.js" type="text/javascript"></script>
+<script src="../../assets/admin/pages/scripts/tasks.js" type="text/javascript"></script>
+<script src="../../assets/admin/pages/scripts/notification.js" type="text/javascript"></script>
+<script src="../../assets/admin/pages/scripts/calendarAdmin.js"></script>
+<script src="../../assets/admin/pages/scripts/components-pickers.js"></script>
+<script type="text/javascript" src="../../assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="../../assets/global/plugins/datatables/extensions/Responsive/js/dataTables.responsive.js"></script>
+<script type="text/javascript" src="../../assets/global/plugins/datatables/extensions/ColVis/js/dataTables.colVis.js"></script>
+
+
+
+
+
+
+<!-- END PAGE LEVEL SCRIPTS -->
+<!-- amCharts javascript sources -->
+		<script type="text/javascript" src="../../assets/amcharts/amcharts.js"></script>
+	<script type="text/javascript" src="../../assets/amcharts/serial.js"></script>
+	<script type="text/javascript" src="../../assets/amcharts/light.js"></script>
+	<script type="text/javascript" src="../../assets/amcharts/funnel.js"></script>
+	<script type="text/javascript" src="../../assets/amcharts/pie.js"></script>
+	<script type="text/javascript" src="../../assets/amcharts/charts_amcharts.js"></script>
+    <!-- amCharts javascript code -->
+<script type="text/javascript">
+
+function voir(id){
+	document.location="/DetailSituation/"+id;
+}
+
+function ajouterOfficine(){
+var id=$("#groupe").val();
+	
+	$.ajax({
+        type : "POST",
+        data : {
+        	id:id
+        },
+        url : "/getGroupOfficineJson",
+        dataType : 'json',
+        success : function(response) {
+        	$("#officine option").remove();
+        	var options = "";
+            for(i in response.officines)
+            {
+            	
+            	
+               options += "<option value = "+response.officines[i].id+">"+response.officines[i].nomOfficine+"</option>"; 
+            }
+            $('#officine').append(options);
+			
+            
+        	
+        },
+        error : function(request, status, error) {
+			$("#ajax").modal("hide");
+        	$("#msg3").html("Erreur : "+ error);
+			$("#large2").modal("show");
+			setTimeout(function() {$("#large2").modal("hide");}, 2000);
+        }
+		
+    });
+}
+
+function situationOfficine(){
+	var id=$("#officine").val();
+	$.ajax({
+        type : "POST",
+        data : {
+        	id:id
+        },
+        url : "/getSituationOfficineJson",
+        dataType : 'json',
+        success : function(response) {
+        	
+			
+           console.log(response)
+           var table = $('#sample_editable_1');
+
+   			var oTable = table.dataTable();
+   			oTable.fnClearTable();
+   			total=0;
+   			totalcli=0;
+   			for(var i=0;i<response.length;i++){
+   				var aiNew = oTable.fnAddData(['', '', '', '']);
+				var nRow = oTable.fnGetNodes(aiNew[i]);
+				var jqInputs = $('input', nRow);
+				var jqTds = $('>td', nRow);
+				jqTds[0].innerHTML =response[i].userDist.nom+' '+response[i].userDist.prenom;
+				jqTds[1].innerHTML =response[i].totalSortie.toFixed(2);
+				jqTds[2].innerHTML =response[i].totalEntree.toFixed(2);
+				totalcli=response[i].totalSortie-response[i].totalEntree;
+				total=total+totalcli;
+				jqTds[3].innerHTML =totalcli.toFixed(2);
+	            //oTable.fnDraw();
+	            
+        	}
+   				
+   				$("#totalP").html(total);
+   			
+       		
+       		
+			
+			
+			
+			
+			//
+        	
+        },
+        error : function(request, status, error) {
+			$("#ajax").modal("hide");
+        	$("#msg3").html("Erreur : "+ error);
+			$("#large2").modal("show");
+			setTimeout(function() {$("#large2").modal("hide");}, 2000);
+        }
+		
+    });
+}
+
+
+
+var TableEditable = function () {
+
+    var handleTable = function () {
+
+		var table = $('#sample_editable_1');
+		var deleteRows= $('#deleteRows');
+		
+        var oTable = table.dataTable({
+            "lengthMenu": [
+                [-1, 5, 15, 20],
+                ["TOUS", 5, 15, 20] 
+            ],
+            "pageLength": 20,
+
+            "language": {
+            	url: "//cdn.datatables.net/plug-ins/1.10.15/i18n/French.json"
+            },
+            "columnDefs": [{ // set default column settings
+                'orderable': true,
+                'targets': [0]
+            }, {
+                "searchable": true,
+                "targets": [0]
+            }],
+            "order": [
+                [0, "asc"]
+            ] // set first column as a default sort by asc
+			
+        });
+			
+
+        var tableWrapper = $("#sample_editable_1_wrapper");
+        var nEditing = null;
+        var nNew = false;
+        
+        
+        table.on('click', '.edit', function (e) {
+        	if (confirm("Êtes-vous sûr de rendre ce prospect un client ?") == false) {
+                return;
+				} 
+            e.preventDefault();
+			var id = $(this).attr('rel');
+			var nRow = $(this).parents('tr')[0];
+           
+            
+				$.ajax({
+        	        type : "POST",
+        	        data : {
+        	        	id : id,
+        	        },
+					url : "/initialisation",
+        	        dataType : 'json',
+        	        success : function(response) {
+        	        	
+        	        	document.location="/situation";
+					},
+					error : function(request, status, error){
+						document.location="/situation";
+						
+					}
+					
+		});
+		});
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+		table.on('click', '.voir', function (e) {
+            e.preventDefault();
+			var id = $(this).attr('rel');
+            
+           
+            
+				$.ajax({
+        	        type : "POST",
+        	        data : {
+        	        	id : id,
+        	        },
+					url : "getBrouillonJson",
+        	        dataType : 'json',
+        	        success : function(response) {
+						var tablehtml="";
+        	        	var total=0;
+        	        	var totalS=0;
+        	        	var totalA=0;
+						console.log(response);
+						for(var i=0;i<response.propoBrouillons.length;i++){
+							tablehtml=tablehtml+'<tr>';
+							tablehtml=tablehtml+'<td><input type="text" value="'+response.propoBrouillons[i].produit.nom+'" name="nomProduit[]" id="nomProduit" disabled="disabled" /></td>';
+							tablehtml=tablehtml+'<td><input type="number" value="'+response.propoBrouillons[i].qte+'" name="qte[]" id="qte" disabled="disabled" /></td>';
+							if(response.offre.propositions[i].typeOffre==1){
+								totalA=totalA+((response.propoBrouillons[i].qte*response.propoBrouillons[i].produit.prix)*(1-(response.offre.propositions[i].remise/100)));
+								tablehtml=tablehtml+'<td><input type="text" value="'+response.offre.propositions[i].remise+'% Remise" name="offre[]" id="offre" disabled="disabled" /></td>';
+							}else if(response.offre.propositions[i].typeOffre==2){
+								tablehtml=tablehtml+'<td><input type="text" value="'+response.offre.propositions[i].unitGratuit+' Unité Gratuite" name="offre[]" id="offre" disabled="disabled" /></td>';
+							}else{
+								tablehtml=tablehtml+'<td><input type="text" value="Rien" name="offre[]" id="offre" disabled="disabled" /></td>';
+							}
+							total=response.propoBrouillons[i].qte * response.propoBrouillons[i].produit.prix;
+							totalS=totalS+total;
+							tablehtml=tablehtml+'<td><input type="number" value="'+total+'" name="total[]" id="total" disabled="disabled" /></td>';
+							tablehtml=tablehtml+'</tr>';
+						}
+						tablehtml=tablehtml+'<tr><td></td><td></td><td>Total sans remise</td><td>'+totalS+'</td></tr>';
+						tablehtml=tablehtml+'<tr><td></td><td></td><td>Total avec remise</td><td>'+totalA+'</td></tr>';
+						$("#detailsBrouillon").html(tablehtml);
+						$('#large1').modal("show");
+					},
+					error : function(request, status, error){}
+					
+		});
+		});
+		
+		
+    }
+
+    return {
+
+        init: function () {
+		handleTable();			
+				
+        }
+
+    };
+
+}();
+
+
+</script>    
+    
+
+<script>
+
+jQuery(document).ready(function() {    
+   Metronic.init(); // init metronic core componets
+   Layout.init(); // init layout
+   QuickSidebar.init(); // init quick sidebar
+Demo.init(); // init demo features
+TableEditable.init();
+  Index.init();   
+   Index.initDashboardDaterange(); // init index page's custom scripts
+   Index.initCharts(); // init index page's custom scripts
+   Index.initChat();
+   Index.initMiniCharts();
+   Tasks.initDashboardWidget();
+   ComponentsPickers.init();
+   ////Notification.init();
+   Calendar.init();
+   
+   
+   
+   
+});
+</script>
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>
