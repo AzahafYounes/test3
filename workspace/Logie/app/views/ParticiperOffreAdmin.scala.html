@@ -1,0 +1,644 @@
+@(msg:String,logedUser : Utilisateur,groupes:List[GroupOfficine],offre:OffreOfficine,notifications:List[UserNotif])
+
+
+<!--[if !IE]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+<meta charset="utf-8"/>
+<title>LOGIECHANGE | Tableau de bord</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="" name="description"/>
+<meta content="" name="author"/>
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
+<!-- END GLOBAL MANDATORY STYLES -->
+<!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+<link href="../../assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/fullcalendar/fullcalendar.print.css" rel="stylesheet" media="print"/>
+<link href="../../assets/global/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/toastr-master/build/toastr.css"/>
+<!-- END PAGE LEVEL PLUGIN STYLES -->
+<!-- BEGIN PAGE STYLES -->
+<link href="../../assets/admin/pages/css/tasks.css" rel="stylesheet" type="text/css"/>
+<!-- END PAGE STYLES -->
+<!-- BEGIN THEME STYLES -->
+<link href="../../assets/global/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/admin/layout/css/themes/darkblue.css" rel="stylesheet" type="text/css" id="style_color"/>
+<link href="../../assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+<!-- END THEME STYLES -->
+<link rel="icon" href="../../assets/favicon.ico"/>
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
+<body class="page-header-fixed page-quick-sidebar-over-content page-sidebar-closed-hide-logo page-container-bg-solid">
+<!-- BEGIN HEADER -->
+<div class="page-header -i navbar navbar-fixed-top">
+	<!-- BEGIN HEADER INNER -->
+	<div class="page-header-inner">
+		<!-- BEGIN LOGO -->
+		<div class="page-logo">
+			<a href="/admin">
+			<img src="../../assets/admin/layout/img/logo-big-white.png" alt="logo" style="height: 30px;" class="logo-default"/>
+			</a>
+			<div class="menu-toggler sidebar-toggler hide">
+			</div>
+		</div>
+		<!-- END LOGO -->
+		<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+		<a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+		</a>
+		<!-- END RESPONSIVE MENU TOGGLER -->
+		<!-- BEGIN TOP NAVIGATION MENU -->
+		<div class="top-menu">
+			<ul class="nav navbar-nav pull-right">
+				<!-- BEGIN NOTIFICATION DROPDOWN -->
+				<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+				
+				 
+				
+				<li class="dropdown dropdown-user">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+					<img alt="" class="img-circle" src="@logedUser.getPhoto()"/>
+					<span class="username username-hide-on-mobile">
+					@logedUser.getNom() @logedUser.getPrenom() </span>
+					<i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-default">
+					 <li>
+							<a href="/accountSettings">
+							<i class="icon-user"></i> Mon profil </a>
+						</li>
+					 
+						<li class="divider">
+						</li>
+						<li>
+							<a href="@routes.Authentification.getAuthentification()">
+							<i class="icon-key"></i> Déconnexion </a>
+						</li>
+					</ul>
+				</li>
+			 
+			</ul>
+		</div>
+		<!-- END TOP NAVIGATION MENU -->
+	</div>
+	
+	<!-- END HEADER INNER -->
+</div>
+<!-- END HEADER -->
+<div class="clearfix">
+</div>
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN SIDEBAR -->
+	 	 <!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar-wrapper">
+			<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+			<!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+			<div class="page-sidebar navbar-collapse collapse">
+				<!-- BEGIN SIDEBAR MENU -->
+				<!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+				<!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+				<!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+				<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+				<!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+				<!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+				<ul class="page-sidebar-menu " data-keep-expanded="false"
+					data-auto-scroll="true" data-slide-speed="200">
+					<!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
+					<li class="sidebar-toggler-wrapper">
+						<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+						<div class="sidebar-toggler"></div> <!-- END SIDEBAR TOGGLER BUTTON -->
+					</li>
+					<!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
+					<li class="sidebar-search-wrapper">
+						<!-- BEGIN RESPONSIVE QUICK SEARCH FORM --> <!-- DOC: Apply "sidebar-search-bordered" class the below search form to have bordered search box -->
+						<!-- DOC: Apply "sidebar-search-bordered sidebar-search-solid" class the below search form to have bordered & solid search box -->
+						<form class="sidebar-search " action="" method="GET">
+							<a href="javascript:;" class="remove"> <i class="icon-close"></i>
+							</a>
+							<div class="input-group">
+								
+							</div>
+						</form> <!-- END RESPONSIVE QUICK SEARCH FORM -->
+					</li>
+										<li ><a href="javascript:;"> <i class="fa fa-cogs"></i> <span
+							class="title">Paramétrage</span> <span class="selected"></span> <span class="arrow open"></span>
+					</a>
+						<ul class="sub-menu">
+							<li ><a href="/allUsers">Utilisateurs</a></li>
+							 
+							<li><a href="/Produits/A">Produits</a></li>
+							<li ><a href="/familleTarifs">Familles Tarifaire</a></li>
+							<li><a href="/formes">Formes</a></li>
+							<li><a href="/fournisseurs">Fournisseurs</a></li>
+							
+						</ul></li>
+						<li ><a href="javascript:;"> <i class="fa fa-street-view"></i> <span
+							class="title">Officine</span> <span class="arrow"></span>
+					</a>
+						<ul class="sub-menu">
+							<li><a href="/officines">Officine</a></li>
+							<li ><a href="/groupofficines">Groupe des officines</a></li>
+						</ul></li>
+						<li class="active"><a href="/offres"> <i class="fa fa-edit"></i> <span
+							class="title">Gestion des offres</span>
+					</a></li>
+					<li><a href="/brouillons"> <i class="fa fa-eye"></i> <span
+							class="title">Historiques</span>
+					</a></li>
+					<li ><a href="/situation"> <i class="fa fa-briefcase"></i> <span
+							class="title">Situation</span> <span class="arrow"></span>
+					</a>
+						</li>
+						<li ><a href="/admin"> <i class="icon-home"></i> <span
+							class="title">Tableau de Bord</span> <span class="arrow"></span>
+					</a>
+						</li>
+					<!-- END ANGULARJS LINK -->
+				</ul>
+				<!-- END SIDEBAR MENU -->
+			</div>
+		</div>
+		<!-- END SIDEBAR -->
+	<!-- END SIDEBAR -->
+	<!-- BEGIN CONTENT -->
+	<div class="page-content-wrapper">
+		<div class="page-content">
+			<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+			
+			<!-- /.modal -->
+			<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+			<!-- BEGIN STYLE CUSTOMIZER -->
+			<!-- END STYLE CUSTOMIZER -->
+			<!-- BEGIN PAGE HEADER-->
+			<h3 class="page-title">
+			GESTION DES PARTICIPATIONS 
+			</h3>
+			<div class="page-bar">
+				<ul class="page-breadcrumb">
+					<li>
+						<i class="fa fa-home"></i>
+						<a href="/admin">Home</a>
+						<i class="fa fa-angle-right"></i>
+					</li>
+					
+					<li>
+						<a href="#">offres</a>
+					</li>
+				</ul>
+			</div>
+			<!-- END PAGE HEADER-->
+			<!-- BEGIN PAGE CONTENT-->
+			
+			<div class="row">
+                <div class="col-xs-12 col-md-3 col-lg-3 pull-left">
+                    <div class="panel panel-default height">
+                        <div class="panel-heading">Fournisseur</div>
+                        <div class="panel-body">
+                            <strong>@offre.getFournisseur().getNom()</strong><br>
+                            Téléphone : @offre.getFournisseur().getTel()<br>
+                            Fax : @offre.getFournisseur().getFax()<br>
+                            Email : @offre.getFournisseur().getEmail()<br>
+                            Adresse :<strong>@offre.getFournisseur().getAdress()</strong><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-3 col-lg-3">
+                    
+                </div>
+                <div class="col-xs-12 col-md-3 col-lg-3">
+                   
+                </div>
+                <div class="col-xs-12 col-md-3 col-lg-3 pull-right">
+                    <div class="panel panel-default height">
+                        <div class="panel-heading">Détail de l'offre</div>
+                        <div class="panel-body">
+                            Date Offre : @offre.getDateOffre().format("dd MMM YYYY")<br>
+                            Date Limite : @offre.getDateLimit().format("dd MMM YYYY")<br>
+                            <br>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			
+			
+			
+			
+				<div class="row ">
+				<form method="POST" action="/addNewBrouillon1" id="integerForm"> 
+				
+				<div class="col-md-12">
+					<div class="portlet box blue-steel">
+						<div class="portlet-title">
+							<div class="caption">
+								<i class="fa fa-bell-o"></i>Veuillez s'il vous plaît séléctionnez l'officine
+							</div>
+							
+						</div>
+						 
+						<div class="portlet-body">
+							<div class="scroller" style="height: 100px;" data-always-visible="1" data-rail-visible="0">
+								<div class="row form-group">
+									<div class="col-md-2">
+										<label
+											style="background-image: url('../images/sprite.png'); background-repeat: no-repeat; -webkit-font-smoothing: antialiased;"
+											class="control-label">Groupes:</label>
+										<div>
+											<select class="selectpicker form-control" data-live-search="true" name="groupe"
+												id="groupe" onchange="ajouterOfficine()" >
+												
+												@for(groupe<-groupes){
+													<option value="@groupe.getId()">@groupe.getNomGroup()</option>
+												}
+												
+											</select>
+										</div>
+									</div>
+									<div class="col-md-2">
+										<label
+											style="background-image: url('../images/sprite.png'); background-repeat: no-repeat; -webkit-font-smoothing: antialiased;"
+											class="control-label">Officines:</label>
+										<div>
+											<select class="form-control select2me" data-live-search="true" name="officine"
+												id="officine">
+												
+												@for(officine<-groupes.get(0).getOfficines()){
+													<option value="@officine.getId()">@officine.getNomOfficine()</option>
+												}
+											</select>
+										</div>
+									</div>
+									
+									
+								</div>
+							</div>
+							
+							
+							
+							<div class="scroller-footer">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				
+				
+				<div class="col-md-12">
+					<div class="portlet box blue-steel">
+						<div class="portlet-title">
+							<div class="caption">
+								<i class="fa fa-bell-o"></i>Veuillez s'il vous plait remplir les champs
+							</div>
+							
+						</div>
+						 <div class="panel-heading">
+          
+                    		@if(msg=="erreur"){
+								<div class="alert alert-danger display">
+						
+								<span>
+								Quantité souhaité doit être inférieure au Quantité disponible </span>
+								</div>
+							}
+                	</div>
+						<div class="portlet-body">
+							<div class="scroller" style="height: 300px;" data-always-visible="1" data-rail-visible="0">
+								<table class="table table-striped table-hover table-bordered "
+									id="sample_editable_5">
+                            <thead>
+                                <tr>
+                                    <td><strong>Désignation</strong></td>
+                                    <td class="text-center"><strong>Quantité de l'offre</strong></td>
+                                    <td class="text-center"><strong>P.P.H</strong></td>
+                                    <td class="text-center"><strong>P.P.V</strong></td>
+                                    <td class="text-center"><strong>Remise</strong></td>
+                                    <td class="text-center"><strong>Quantité Disponible</strong></td>
+                                    <td class="text-center"><strong>Quantité souhaitée</strong></td>
+                                  
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+                           @for(proposition<-offre.getPropositions()){
+                           		<tr>
+                           		<input type="hidden" name="qte[]" id="qte" value="@proposition.getQte()" > 
+                                    <td> <input type="hidden" name="idProduit[]" id="idProduit" value="@proposition.getProduit().getId()" >@proposition.getProduit().getNom()</td>
+                                    <td align="right"><input type="hidden" name="qte1[]" id="qte1" value="@proposition.getQte()" disabled="disabled"/> @proposition.getQte() </td>
+                                    <td align="right">@{"%.2f".format(proposition.getProduit().getPph())}</td>
+                                    <td align="right">@{"%.2f".format(proposition.getProduit().getPrix())} </td>
+                                    @if(proposition.getTypeOffre()==0){
+                                    	<td>AUCUNE</td>
+                                    }
+                                    @if(proposition.getTypeOffre()==1){
+                                    	<td>Remise de @{"%.2f".format(proposition.getRemise())} %</td>
+                                    }
+                                    @if(proposition.getTypeOffre()==2){
+                                    	<td>Offre de @proposition.getUnitGratuit() Unité</td>
+                                    }
+                                    <td align="right"><input type="hidden" name="qteDisp[]" id="qteDisp" value="@proposition.getQteReste()" disabled="disabled"/> @proposition.getQteReste() </td>
+                                    <td align="right"><input type="hidden" value="0" name="qte@proposition.getId()" id="qte@proposition.getId()"  />
+                                    <input type="number" value="0" name="qteSouhai[]" id="qteSouhai" onblur="calcule(@proposition.getId(),this,@proposition.getQteReste());" /> </td>
+                                 </tr>
+                           }
+                            	
+                                 
+                          
+                                
+                            </tbody>
+                        </table>
+							
+							
+							
+							
+							
+							
+							
+							
+							</div>
+							
+							
+							
+							<div class="scroller-footer">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			<div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            
+                            <tbody>
+                            <input type="hidden" name="idOffre" id="idOffre" value="@offre.getId()"/>
+                            
+                            
+                            	
+                               
+                            	<tr>
+                            		<td ></td>
+                                    <td ></td>
+                                    <td ></td>
+                                    <td ></td>
+                                    <td class="highrow"></td>
+                                    <td class="highrow"></td>
+                                    <td class="highrow text-center" align="right"><strong>Total Remisé:</strong></td>
+                                    <td class="highrow text-right" align="right"><input  type="text" disabled="disabled" name="tR" id="tR" value="0.00"/> </td>
+                                </tr>
+                                <tr>
+                                	<td ></td>
+                                    <td ></td>
+                                    <td ></td>
+                                    <td ></td>
+                                    <td class="highrow"></td>
+                                    <td class="highrow"></td>
+                                    <td class="highrow text-center" align="right"><strong>Total Sans Remise:</strong></td>
+                                    <td class="highrow text-right" align="right"><input  type="text" disabled="disabled" name="tSR" id="tSR" value="0.00"/></td>
+                                </tr>
+                                <tr>
+                                	<td ></td>
+                                    <td ></td>
+                                    <td ></td>
+                                    <td ></td>
+                                    <td class="highrow"></td>
+                                    <td class="highrow"></td>
+                                    <td class="highrow text-center" align="right"><strong>Total PPV:</strong></td>
+                                    <td class="highrow text-right" align="right"><input  type="text" disabled="disabled" name="tPPV" id="tPPV" value="0.00"/></td>
+                                </tr>
+                               
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <button href="javascript:;" class="btn green btn-block margin-top-20" data-toggle="modal" value="Valider">TOTAL<i	class="m-icon-swapright m-icon-white"></i></button>
+		<!-- END PAGE CONTENT-->
+		</div>
+	</div>
+	</form>
+	<!-- END CONTENT -->
+	
+</div>
+
+<div class="modal fade" id="large2" tabindex="-1"
+												role="dialog" aria-labelledby="myModalLabel"
+												aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal"
+																aria-hidden="true"></button>
+															<h4 class="modal-title">Gestion des OFFRES</h4>
+														</div>
+														<div class="modal-body" id="msg3"></div>
+
+													</div>
+													<!-- /.modal-content -->
+												</div>
+												<!-- /.modal-dialog -->
+											</div>
+											<div class="modal fade" id="ajax2" role="basic"
+												aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-body">
+															<img
+																src="../../assets/admin/layout3/img/loading-spinner-blue.gif"
+																alt="" class="loading"> <span id="msgRi"></span>
+														</div>
+													</div>
+												</div>
+											</div>
+
+
+
+
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<div class="page-footer">
+	<div class="page-footer-inner">
+		 2017 &copy; LOGILAN MAROC.
+	</div>
+	<div class="scroll-to-top">
+		<i class="icon-arrow-up"></i>
+	</div>
+</div>
+<!-- END FOOTER -->
+<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+<!-- BEGIN CORE PLUGINS -->
+<!--[if lt IE 9]>
+<script src="../../assets/global/plugins/respond.min.js"></script>
+<script src="../../assets/global/plugins/excanvas.min.js"></script> 
+<![endif]-->
+<script src="../../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+<!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+<script src="../../assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+<!-- END CORE PLUGINS -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<!-- IMPORTANT! fullcalendar depends on jquery-ui.min.js for drag & drop support -->
+<script src="../../assets/global/plugins/moment.min.js"></script>
+<script src="../../assets/global/plugins/fullcalendar/fullcalendar.min.js"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="../../assets/global/plugins/toastr-master/toastr.js"></script>
+<script src="../../assets/global/scripts/metronic.js" type="text/javascript"></script>
+<script src="../../assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
+<script src="../../assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
+<script src="../../assets/admin/layout/scripts/demo.js" type="text/javascript"></script>
+<script src="../../assets/admin/pages/scripts/calendar.js"></script>
+
+<script src="../../assets/admin/pages/scripts/notification.js" type="text/javascript"></script>
+<script>
+function ajouterOfficine(){
+		
+	var id=$("#groupe").val();
+	
+	$.ajax({
+        type : "POST",
+        data : {
+        	id:id
+        },
+        url : "/getGroupOfficineJson",
+        dataType : 'json',
+        success : function(response) {
+        	$("#officine option").remove();
+        	var options = "";
+            for(i in response.officines)
+            {
+            	
+            	
+               options += "<option value = "+response.officines[i].id+">"+response.officines[i].nomOfficine+"</option>"; 
+            }
+            $('#officine').append(options);
+			
+            
+        	
+        },
+        error : function(request, status, error) {
+			$("#ajax").modal("hide");
+        	$("#msg3").html("Erreur : "+ error);
+			$("#large2").modal("show");
+			setTimeout(function() {$("#large2").modal("hide");}, 2000);
+        }
+		
+    });
+	
+	
+}
+function calcule(id,qte,qteR){
+	var qteS = parseInt(qte.value);
+	
+	if(isNaN(qteS) )
+	   {
+		qte.value=0;
+		qteS=0;
+	   }
+	
+	var qteS = parseInt(qte.value);
+	
+	if(qteS>qteR){
+		
+		$("#msg3").html("Vous devez faire attention à votre quantité souhaité!");
+    	
+		$("#large2").modal("show");
+		setTimeout(function() {$("#large2").modal("hide");}, 1000);
+		qte.value=0;
+		qteS=0;
+		
+	}
+	
+	
+	
+	var qtePr=$("#qte"+id).val();
+	$("#qte"+id).val(qteS);
+	
+	var TPPV=$("#tPPV").val();
+	
+	var TR=$("#tR").val();
+	
+	var TSR=$("#tSR").val();
+	
+	
+	$.ajax({
+        type : "POST",
+        data : {
+        	id:id,
+        	qteS : qteS,
+        	qtePr:qtePr,
+    		TPPV:TPPV,
+    		TR:TR,
+    		TSR:TSR
+        },
+        url : "/calculePropo",
+        dataType : 'json',
+        success : function(response) {
+        	
+        	$("#tPPV").val(response.totalPPV.toFixed(2));
+        	$("#tR").val(response.totalRemise.toFixed(2));
+        	$("#tSR").val(response.totalSansRemise.toFixed(2));
+			
+            
+        	
+        },
+        error : function(request, status, error) {
+			$("#ajax").modal("hide");
+        	$("#msg3").html("Erreur : "+ error);
+			$("#large2").modal("show");
+			setTimeout(function() {$("#large2").modal("hide");}, 2000);
+        }
+		
+    });
+	
+}
+
+
+
+
+
+
+
+jQuery(document).ready(function() {       
+   // initiate layout and plugins
+   Metronic.init(); // init metronic core components
+Layout.init(); // init current layout
+QuickSidebar.init(); // init quick sidebar
+Demo.init(); // init demo features
+   Calendar.init();
+   
+   //Notification.init();
+});
+</script>
+<!-- END PAGE LEVEL SCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

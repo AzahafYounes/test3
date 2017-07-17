@@ -1,0 +1,1364 @@
+@(logedUser : Utilisateur, produits:List[Produit],fournisseurs:List[Fournisseur],propositions:List[Proposition],groupes:List[GroupOfficine],notifications:List[UserNotif],notificationsLu:List[UserNotif])
+
+
+<!DOCTYPE html>
+
+
+<!--[if !IE]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+<meta charset="utf-8"/>
+<title>LOGIECHANGE | Officine</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="" name="description"/>
+<meta content="" name="author"/>
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
+<!-- END GLOBAL MANDATORY STYLES -->
+<!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+<link href="../../assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/plugins/fullcalendar/fullcalendar.print.css" rel="stylesheet" media="print"/>
+<link href="../../assets/global/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/toastr-master/build/toastr.css"/>
+<!-- END PAGE LEVEL PLUGIN STYLES -->
+<!-- BEGIN PAGE STYLES -->
+<link href="../../assets/admin/pages/css/tasks.css" rel="stylesheet" type="text/css"/>
+<!-- END PAGE STYLES -->
+<!-- BEGIN THEME STYLES -->
+<link href="../../assets/global/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
+<link href="../../assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
+<link href="../../assets/admin/layout/css/themes/light2.css" rel="stylesheet" type="text/css" id="style_color"/>
+<link href="../../assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/media/css/jquery.dataTables.css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/select2/select2.css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/extensions/ColVis/css/dataTables.colVis.css"/>
+
+<!-- END THEME STYLES -->
+<link rel="icon" href="../../assets/favicon.ico"/>
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
+<body class="page-header-fixed page-quick-sidebar-over-content page-sidebar-closed-hide-logo page-container-bg-solid">
+<!-- BEGIN HEADER -->
+<div class="page-header -i navbar navbar-fixed-top">
+	<!-- BEGIN HEADER INNER -->
+	<div class="page-header-inner">
+		<!-- BEGIN LOGO -->
+		<div class="page-logo">
+			<a href="/admin">
+			<img src="../../assets/admin/layout/img/logo-big-white.png" alt="logo" style="height: 30px;" class="logo-default"/>
+			</a>
+			<div class="menu-toggler sidebar-toggler hide">
+			</div>
+		</div>
+		<!-- END LOGO -->
+		<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+		<a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+		</a>
+		<!-- END RESPONSIVE MENU TOGGLER -->
+		<!-- BEGIN TOP NAVIGATION MENU -->
+		<div class="top-menu">
+			<ul class="nav navbar-nav pull-right">
+				<!-- BEGIN NOTIFICATION DROPDOWN -->
+				<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+				
+				 
+				
+				<li class="dropdown dropdown-user">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+					<img alt="" class="img-circle" src="@logedUser.getPhoto()"/>
+					<span class="username username-hide-on-mobile">
+					@logedUser.getNom() @logedUser.getPrenom() </span>
+					<i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-default">
+					 <li>
+							<a href="/accountSettings">
+							<i class="icon-user"></i> Mon profil </a>
+						</li>
+					 
+						<li class="divider">
+						</li>
+						<li>
+							<a href="@routes.Authentification.getAuthentification()">
+							<i class="icon-key"></i> Déconnexion </a>
+						</li>
+					</ul>
+				</li>
+			 
+			</ul>
+		</div>
+		<!-- END TOP NAVIGATION MENU -->
+	</div>
+	
+	<!-- END HEADER INNER -->
+</div>
+<!-- END HEADER -->
+
+<div class="clearfix">
+</div>
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+	<!-- BEGIN SIDEBAR -->
+	 	 <!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar-wrapper">
+			<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+			<!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+			<div class="page-sidebar navbar-collapse collapse">
+				<!-- BEGIN SIDEBAR MENU -->
+				<!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+				<!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+				<!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+				<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+				<!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+				<!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+				<ul class="page-sidebar-menu " data-keep-expanded="false"
+					data-auto-scroll="true" data-slide-speed="200">
+					<!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
+					<li class="sidebar-toggler-wrapper">
+						<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+						<div class="sidebar-toggler"></div> <!-- END SIDEBAR TOGGLER BUTTON -->
+					</li>
+					<!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
+					<li class="sidebar-search-wrapper">
+						<!-- BEGIN RESPONSIVE QUICK SEARCH FORM --> <!-- DOC: Apply "sidebar-search-bordered" class the below search form to have bordered search box -->
+						<!-- DOC: Apply "sidebar-search-bordered sidebar-search-solid" class the below search form to have bordered & solid search box -->
+						<form class="sidebar-search " action="" method="GET">
+							<a href="javascript:;" class="remove"> <i class="icon-close"></i>
+							</a>
+							<div class="input-group">
+								
+							</div>
+						</form> <!-- END RESPONSIVE QUICK SEARCH FORM -->
+					</li>
+						@if(logedUser.getRole()=="AdminOfficine"){
+						<li><a href="javascript:;"> <i class="fa fa-cogs"></i> <span
+							class="title">Paramétrage</span> <span class="arrow"></span>
+					</a>
+						<ul class="sub-menu">
+							<li><a href="/allUsers">utilisateurs</a></li>
+							 
+							<li><a href="/monGroupe">Groupe</a></li>
+							
+						</ul></li>
+					}
+					<li><a href="/listFournisseurPh"> <i class="fa fa-search"></i> <span
+							class="title">Fournisseurs</span> <span class="arrow"></span>
+					</a></li>
+					<li><a href="/listProdPh/A"> <i class="fa fa-eye"></i> <span
+							class="title">Produits</span> <span class="arrow"></span>
+					</a></li>
+					<li class="active"><a href="/offres"> <i class="fa fa-edit"></i> <span
+							class="title">Offres</span><span class="arrow"></span>
+					</a></li>
+					<li ><a href="/brouillons"> <i class="fa fa-users"></i> <span
+							class="title">Historiques</span><span class="arrow"></span>
+					</a></li>	
+					<li ><a href="/situation"> <i class="fa fa-briefcase"></i> <span
+							class="title">Situation</span> <span class="arrow"></span>
+					</a>
+						</li>
+						<li ><a href="/admin"> <i class="icon-home"></i> <span
+							class="title">Tableau de Bord</span> <span class="arrow"></span>
+					</a>
+						</li>
+
+					
+					<!-- END ANGULARJS LINK -->
+				</ul>
+				<!-- END SIDEBAR MENU -->
+			</div>
+		</div>
+		<!-- END SIDEBAR -->
+	<!-- END SIDEBAR -->
+	<!-- BEGIN CONTENT -->
+	<div class="page-content-wrapper">
+		<div class="page-content">
+			<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+			<!-- /.modal -->
+			<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+			<!-- BEGIN PAGE HEADER-->
+				
+				<div class="page-bar">
+					<h3 class="page-title">
+				ESPACE OFFICINE | OFFRES
+				</h3>
+					<ul class="page-breadcrumb">
+					<li>
+						<a href="/admin">Home</a><i class="fa fa-angle-right"></i>  
+						</li>
+						<li>
+						<a href="/offres">Offres</a>
+						</li>
+						
+						 
+					</ul>
+				</div>
+			
+			<div class="clearfix">
+			</div>
+			<div class="row">
+					<div class="col-md-12 ">
+						<!-- BEGIN PORTLET-->
+						<div class="portlet-body" id="haa" >
+								<div class="row form-group">
+									
+									
+									<div class="col-md-2">
+										<label
+											style="background-image: url('../images/sprite.png'); background-repeat: no-repeat; -webkit-font-smoothing: antialiased;"
+											class="control-label">Fournisseurs:</label>
+										<div>
+											<select class="selectpicker form-control" data-live-search="true" name="fournisseur"
+												id="fournisseur" onchange="ajouterProduit()" >
+												<option value="0">Selectionner Fournisseur...</option>
+												@for(fournisseur<-fournisseurs){
+												<option value="@fournisseur.getId()">@fournisseur.getNom()</option>
+												}
+											</select>
+										</div>
+									</div>
+									<div class="col-md-2">
+										<label
+											style="background-image: url('../images/sprite.png'); background-repeat: no-repeat; -webkit-font-smoothing: antialiased;"
+											class="control-label">Groupes:</label>
+										<div>
+											<select class="selectpicker form-control" data-live-search="true" name="groupe"
+												id="groupe" onchange="ajouterProduit()" >
+												<option value="0">Selectionner votre Groupe...</option>
+												@for(groupe<-groupes){
+												<option value="@groupe.getId()">@groupe.getNomGroup()</option>
+												}
+											</select>
+										</div>
+									</div>
+									
+								</div>
+								<div class="row form-group">
+
+									
+									
+									
+
+								</div>
+								<div class="row form-group">
+									<div class="col-md-4">
+										<label class="control-list">Date d'offre:</label>
+										<div class="input-group input date-picker input-daterange"
+												data-date="10/11/2014" data-date-format="dd/mm/yyyy">
+											<input class="form-control input"  type="date" id="dateOffre" onblur="ajouterProduit()">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<label class="control-label">Date limite:</label>
+										<div class="input-group input date-picker input-daterange"
+												data-date="10/11/2014" data-date-format="dd/mm/yyyy">
+											<input class="form-control input"  type="date"
+												id="dateLimit" onblur="ajouterProduit()">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<label class="control-list">Publier:</label>
+										<div>
+											<input type="checkbox" id="publier" name="publier" href="javascript:;" value="0"  >
+										</div>
+									</div>
+								</div>
+								<div class="row form-group">
+									
+									<div class="portlet  box blue-hoki">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class=""></i>Liste des Produits
+								</div>
+								<div class="tools">
+									 
+								</div>
+							</div>
+							<div class="portlet-body">
+								<div class="table-toolbar">
+									<div class="row">
+										<div class="row form-group">
+									
+									<div class="col-md-1">
+										<label
+											style="background-image: url('../images/sprite.png'); background-repeat: no-repeat; -webkit-font-smoothing: antialiased;"
+											class="control-label"></label>
+										<div>
+											
+                    
+										</div>
+									</div>
+									<div class="col-md-2">
+										<label
+											style="background-image: url('../images/sprite.png'); background-repeat: no-repeat; -webkit-font-smoothing: antialiased;"
+											class="control-label">Produits:</label>
+										<div>
+											<select class="selectpicker form-control" data-live-search="true" name="produit"	id="produit" onchange="savePropo()" >
+											<option value="">séléctionner un produit</option>
+											</select>
+        	        	
+										</div>
+									</div>
+									<div class="col-md-2">
+										<label
+											style="background-image: url('../images/sprite.png'); background-repeat: no-repeat; -webkit-font-smoothing: antialiased;"
+											class="control-label">Quanité</label>
+										<div>
+											<input id="qte" type="number" class="form-control" required="required" value="0" data-fv-integer="true"  data-fv-integer-message="Veuillez entrer un nombre" onblur="savePropo()"/>
+                    
+                    
+										</div>
+									</div>
+									<div class="col-md-2">
+										<label
+											style="background-image: url('../images/sprite.png'); background-repeat: no-repeat; -webkit-font-smoothing: antialiased;"
+											class="control-label"  >Remise:</label>
+										<div>
+											<select id="typeOffre" type="text" class="form-control" onchange="changerSelectChamp()" >
+												<option value="0">AUCUNE OFFRE</option>
+												<option value="1">REMISE</option>
+												<option value="2">UNITE GRATUITE</option>
+											</select>
+                    
+										</div>
+									</div>
+									<div class="col-md-2">
+										<label
+											style="background-image: url('../images/sprite.png'); background-repeat: no-repeat; -webkit-font-smoothing: antialiased;"
+											class="control-label">Remise</label>
+										<div>
+											<input id="remise" type="number" class="form-control" required="required" value="0" data-fv-integer="true"  data-fv-integer-message="Veuillez entrer un nombre" onblur="savePropo()"/>
+                    	
+                    
+										</div>
+									</div>
+									<div class="col-md-2">
+										<label
+											style="background-image: url('../images/sprite.png'); background-repeat: no-repeat; -webkit-font-smoothing: antialiased;"
+											class="control-label">Unité gratuite</label>
+										<div>
+											<input id="unitGratuit" type="number" class="form-control" required="required" value="0" data-fv-integer="true"  data-fv-integer-message="Veuillez entrer un nombre" onblur="savePropo()" />
+                    
+                    
+										</div>
+									</div>
+									
+									
+								</div>
+										
+										
+										
+										
+										
+									</div>
+								</div>
+								<input type="hidden" name="idOffre" id="idOffre"/>
+								<table class="table table-striped table-hover table-bordered"
+									id="sample_editable_1">
+
+									<thead>
+										<tr id="1">
+											<th class="table-checkbox"><input type="checkbox"
+												class="group-checkable"
+												data-set="#sample_editable_1 .checkboxes" /></th>
+
+											<th class="col-md-2">Désignation Produit</th>
+
+											<th class="col-md-2">Quantité</th>
+											
+											<th class="col-md-2">Type d'offre</th>
+											<th class="col-md-2">Remise</th>
+											<th class="col-md-2">Unité Gratuite</th>
+											
+											<th  class="col-md-2">Actions</th>
+										</tr>
+										
+									</thead>
+									<tbody>
+										@for(proposition<-propositions){
+										<tr>
+											<td><input name="checkbox" type="checkbox"
+												class="checkboxes" value="@proposition.getId()" /></td>
+
+											<td>@proposition.getProduit().getNom()</td>
+											<td align="right">@proposition.getQte()</td>
+											<td>@proposition.getTypeOffre()</td>
+											@if(proposition.getTypeOffre()==0){
+												<td>AUCUNE REMISE</td>
+												<td>Pas d'unité gratuit</td>
+											}
+											@if(proposition.getTypeOffre()==1){
+												<td align="right">@proposition.getRemise()</td>
+												<td>Pas d'unité gratuit</td>
+											}
+											
+											@if(proposition.getTypeOffre()==2){
+												<td>AUCUNE REMISE</td>
+												<td align="right">@proposition.getUnitGratuit()</td>
+											}
+											
+											
+											<td></td>
+										</tr>
+										}
+									</tbody>
+								</table>
+							</div>
+							<div class="modal fade" id="large2" tabindex="-1"
+												role="dialog" aria-labelledby="myModalLabel"
+												aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal"
+																aria-hidden="true"></button>
+															<h4 class="modal-title">Gestion Offre</h4>
+														</div>
+														<div class="modal-body" id="msg3"></div>
+
+													</div>
+													<!-- /.modal-content -->
+												</div>
+												<!-- /.modal-dialog -->
+											</div>
+											<div class="modal fade" id="ajax2" role="basic"
+												aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-body">
+															<img
+																src="../../assets/admin/layout3/img/loading-spinner-blue.gif"
+																alt="" class="loading"> <span id="msgRi"></span>
+														</div>
+													</div>
+												</div>
+											</div>
+						</div>
+						
+									
+								</div>
+								
+								
+
+								
+								
+								<a id="searchad" href="javascript:;"
+									class="btn green btn-block margin-top-20" data-toggle="modal"
+									data-target="#myModalB">Valider <i
+									class="m-icon-swapright m-icon-white"></i></a>
+								<div id="loading"></div>
+							</div>
+						
+						<!-- END PORTLET-->
+					</div>
+				</div>
+			
+				
+			
+			
+			
+			</div>
+
+
+
+<div class="modal fade" id="myModalA" tabindex="1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- BEGIN FORM-->
+				<div class="row">
+					<div class="col-md-12">
+						<!-- BEGIN VALIDATION STATES-->
+						<div class="portlet box purple modal-header">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-user"></i>OFFRES
+								</div>
+								<div class="tools">
+									<a href="javascript:;" class="collapse"> </a> <a
+										href="#portlet-config" data-toggle="modal" class="config">
+									</a> <a href="javascript:;" class="reload"> </a> <a type="button"
+										class="close" data-dismiss="modal" aria-hidden="true"></a>
+								</div>
+							</div>
+						</div>
+						</div>
+					<!-- END VALIDATION STATES-->
+				</div>
+			</div>
+
+		</div>
+		<!-- /.modal-content -->
+	</div>
+
+
+<div class="modal fade" id="myModalB" tabindex="1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" id="testmodal">
+
+
+
+			<img src='../../assets/img/loading.gif' id="imglod" />
+			<style>
+#imglod {
+	display: block;
+	margin-top: 50%;
+	margin-left: 50%;
+	vertical-align: center;
+}
+</style>
+
+
+		</div>
+
+
+	
+	<!-- BEGIN QUICK SIDEBAR -->
+	<a href="javascript:;" class="page-quick-sidebar-toggler"><i class="icon-close"></i></a>
+	<!-- END QUICK SIDEBAR -->
+
+			<!-- END PAGE HEADER-->
+		</div>
+	</div>
+</div>
+	<!-- END CONTENT -->
+	<!-- BEGIN QUICK SIDEBAR -->
+	<!-- END QUICK SIDEBAR -->
+
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<div class="page-footer">
+	<div class="page-footer-inner">
+		 2017 &copy; LOGILAN MAROC.
+	</div>
+	<div class="scroll-to-top">
+		<i class="icon-arrow-up"></i>
+	</div>
+</div>
+<!-- END FOOTER -->
+<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+<!-- BEGIN CORE PLUGINS -->
+<!--[if lt IE 9]>
+<script src="../../assets/global/plugins/respond.min.js"></script>
+<script src="../../assets/global/plugins/excanvas.min.js"></script> 
+<![endif]-->
+	<script src="../../assets/global/plugins/jquery.min.js"
+		type="text/javascript"></script>
+	<script src="../../assets/global/plugins/jquery-migrate.min.js"
+		type="text/javascript"></script>
+	<script type="text/javascript"
+		src="../../assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+	<!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+	<script src="../../assets/global/plugins/jquery-ui/jquery-ui.min.js"
+		type="text/javascript"></script>
+	<script src="../../assets/global/plugins/bootstrap/js/bootstrap.min.js"
+		type="text/javascript"></script>
+	<script
+		src="../../assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"
+		type="text/javascript"></script>
+	<script
+		src="../../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"
+		type="text/javascript"></script>
+	<script src="../../assets/global/plugins/jquery.blockui.min.js"
+		type="text/javascript"></script>
+	<script src="../../assets/global/plugins/jquery.cokie.min.js"
+		type="text/javascript"></script>
+	<script src="../../assets/global/plugins/uniform/jquery.uniform.min.js"
+		type="text/javascript"></script>
+	<script
+		src="../../assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js"
+		type="text/javascript"></script>
+	<script
+		src="../../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"
+		type="text/javascript"></script>
+	<!-- END CORE PLUGINS -->
+	<!-- BEGIN PAGE LEVEL PLUGINS -->
+	<script type="text/javascript"
+		src="../../assets/global/plugins/select2/select2.min.js"></script>
+	<script type="text/javascript"
+		src="../../assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
+
+	<!-- END PAGE LEVEL PLUGINS -->
+	<!-- BEGIN PAGE LEVEL SCRIPTS -->
+	<script src="../../assets/global/plugins/toastr-master/toastr.js"></script>
+	<script src="../../assets/global/scripts/metronic.js"
+		type="text/javascript"></script>
+	<script src="../../assets/admin/layout/scripts/layout.js"
+		type="text/javascript"></script>
+	<script src="../../assets/admin/layout/scripts/quick-sidebar.js"
+		type="text/javascript"></script>
+	<script src="../../assets/admin/layout/scripts/demo.js"
+		type="text/javascript"></script>
+	<script src="../../assets/admin/pages/scripts/listProspectAdmin.js"></script>
+	<script src="../../assets/admin/pages/scripts/notification.js"
+		type="text/javascript"></script>
+
+	<!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+	<link
+		href="../../assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css"
+		rel="stylesheet" type="text/css" />
+	<link
+		href="../../assets/global/plugins/fullcalendar/fullcalendar.min.css"
+		rel="stylesheet" type="text/css" />
+	<link
+		href="../../assets/global/plugins/fullcalendar/fullcalendar.print.css"
+		rel="stylesheet" media="print" />
+	<link href="../../assets/global/plugins/jqvmap/jqvmap/jqvmap.css"
+		rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css"
+		href="../../assets/global/plugins/toastr-master/build/toastr.css" />
+	<script
+		src="../../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"
+		type="text/javascript"></script>
+    <!-- amCharts javascript code -->
+    
+<script type="text/javascript">
+
+
+
+function verifInteger(champ)
+{
+	
+   var nomber = parseInt(champ.value);
+   
+   if(isNaN(nomber) ||nomber<0 )
+   {
+      champ.value=0;
+   }
+   
+}
+
+
+
+function savePropo(){
+	var idProduit=$("#produit").val();
+	var qte = $("#qte").val();
+	var typeOffre = $("#typeOffre").val();
+	var remise = $("#remise").val();
+	var unitGratuit = $("#unitGratuit").val();
+	var valide=0;
+	if(idProduit!="" && qte>0 && typeOffre!=0){
+		if(typeOffre==1){
+			if(remise!=0){
+				valide=1;
+				unitGratuit=0;
+			}
+		}else{
+			if(unitGratuit!=0){
+				valide=1;
+				remise=0;
+			}
+		}
+	}
+	if(valide==1){
+		 $.ajax({
+	        type : "POST",
+	        data : {
+	        	idProduit:idProduit,
+	        	qte : qte,
+	        	typeOffre:typeOffre,
+	    		remise:remise,
+	    		unitGratuit:unitGratuit
+	        },
+	        url : "/addProposition_ok",
+	        dataType : 'json',
+	        success : function(response) {
+	        	console.log(response)
+	        	
+	        	var table = $('#sample_editable_1');
+
+        		var oTable = table.dataTable();
+	        	var aiNew = oTable.fnAddData(['', '', '', '', '', '', '']);
+				var nRow = oTable.fnGetNodes(aiNew[0]);
+				var jqInputs = $('input', nRow);
+				var aData = oTable.fnGetData(nRow);
+				var jqTds = $('>td', nRow);
+				
+				jqTds[0].innerHTML ='<input type="checkbox" class="checkboxes" id="checkbox2" value="'+response.id +'" >';
+	        	
+	        	jqTds[1].innerHTML = response.produit.nom;
+    	        jqTds[2].innerHTML = response.qte;
+    	        if(response.typeOffre==0){
+    	        	jqTds[3].innerHTML ="RIEN";
+    	        	jqTds[4].innerHTML =0;
+    	        	jqTds[5].innerHTML =0;
+    	        }
+    	        if(response.typeOffre==1){
+    	        	jqTds[3].innerHTML ="REMISE";
+    	        	jqTds[4].innerHTML =response.remise;
+    	        	jqTds[5].innerHTML =0;
+    	        }
+    	        if(response.typeOffre==2){
+    	        	jqTds[3].innerHTML ="UNITE GRATUITE";
+    	        	jqTds[4].innerHTML =0;
+    	        	jqTds[5].innerHTML =response.unitGratuit;
+    	        }
+    	        
+    	        jqTds[6].innerHTML = '<a class="delete" rel="'+ response.id+'"><img src="../../assets/img/delete.png" title="Supprimer"></a>';
+                
+               
+    	            
+	        	
+	        	$("#qte").val("0");
+	        	$("#remise").val("0");
+	        	$("#unitGratuit").val("0");
+	        	$("#remise").attr('disabled','disabled');
+	        	$("#unitGratuit").attr('disabled','disabled');
+	        	$("#typeOffre").val("0")
+	        	
+	        	
+				
+	            
+	        	
+	        },
+	        error : function(request, status, error) {
+				$("#ajax").modal("hide");
+	        	$("#msg3").html("Erreur : "+ error);
+				$("#large2").modal("show");
+				setTimeout(function() {$("#large2").modal("hide");}, 2000);
+	        }
+			
+	    });
+	}
+}
+
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+
+
+
+
+function ajouterProduit()
+{
+	var fournisseur=$('#fournisseur').val();
+    var dateOffre=$('#dateOffre').val();
+    var dateLimit=$('#dateLimit').val();
+    var groupe=$('#groupe').val();
+    
+    var sdate1 = document.getElementById('dateLimit').value
+   
+	var date1 = new Date();
+	date1.setFullYear(sdate1.substr(0,4));
+	
+	date1.setMonth(sdate1.substr(5,2));
+	
+	date1.setDate(sdate1.substr(8,2));
+	
+	date1.setHours(0);
+	date1.setMinutes(0);
+	date1.setSeconds(0);
+	date1.setMilliseconds(0);
+	var d1=date1.getTime()
+
+	var sdate2 = document.getElementById('dateOffre').value
+
+	var date2 = new Date();
+	date2.setFullYear(sdate2.substr(0,4));
+	date2.setMonth(sdate2.substr(5,2));
+	date2.setDate(sdate2.substr(8,2));
+	date2.setHours(0);
+	date2.setMinutes(0);
+	date2.setSeconds(0);
+	date2.setMilliseconds(0);
+	var d2=date2.getTime()
+	var date3 = new Date();
+	date3.setHours(0);
+	date3.setMinutes(0);
+	date3.setSeconds(0);
+	date3.setMilliseconds(0);
+	var da3=date3.getTime()
+	
+
+
+
+    
+	if(fournisseur==0 || dateOffre=="" || dateLimit=="" || groupe==0){
+    	var i=0;
+	}
+    else{
+    	if(d1>d2 ){
+    		var publier=1;
+            $('#fournisseur').attr('disabled','disabled');
+            $('#dateOffre').attr('disabled','disabled');
+            $('#dateLimit').attr('disabled','disabled');
+            $('#groupe').attr('disabled','disabled');
+            if($('#publier').is(':checked')){
+            	publier=1;
+            }
+            $('#publier').attr('disabled','disabled');
+            $.ajax({
+    	        type : "POST",
+    	        data : {
+    	        	fournisseur:fournisseur,
+    	        	dateOffre:dateOffre,
+    	        	dateLimit:dateLimit,
+    	        	publier:publier,
+    	        	groupe:groupe
+    	        	
+    	        },
+    	        url : "/produitByFournisseur",
+    	        dataType : 'json',
+    	        success : function(response) {
+    	        	
+    	        	$("#produit").prop('disabled', false);
+    	        	$("#qte").prop('disabled', false);
+    	        	$("#typeOffre").prop('disabled', false);
+    	        	$("#remise").attr('disabled','disabled');
+    	        	$("#unitGratuit").attr('disabled','disabled');
+                    console.log(response)
+                    var cookie=document.cookie;
+    	        	var idO=getCookie("idOffre");
+    	        	$('#idOffre').val(idO);
+    	        	$('#publier').prop('disabled',true);
+    	            var options = "";
+    	            for(i in response)
+    	            {
+    	            	
+    	            	$('#produit').select2("val", response[i].nom);
+    	               options += "<option value = "+response[i].id+">"+response[i].nom+"</option>"; 
+    	            }
+    	            $('#produit').append(options);
+    	        	
+    	        },
+    	        error : function(request, status, error) {
+					
+    	        }
+				
+    	    });
+
+            
+
+            
+    		
+    	}else{
+    	
+        
+    	$("#msg3").html("Warning : veuillez s'il vous plait vérifier les dates ");
+		$("#large2").modal("show");
+		setTimeout(function() {$("#large2").modal("hide");}, 2000);
+        
+        
+    }
+    }
+   
+   
+}
+
+
+$('input[id="publier"]').on('switchChange.bootstrapSwitch', function(event, state) {
+	
+	var id = $('#idOffre').val();
+	
+	if(id!=0){
+		changePublier(id);
+	}
+	
+});
+
+
+function changePublier(id){
+$.ajax({
+	        type : "POST",
+	        data : {
+	        	id : id
+	        },
+			url : "/updatePublie",
+	        dataType : 'json',
+	        success : function(response) {
+				
+				
+			},
+			error : function(request, status, error){}
+			
+			});
+
+
+}
+
+
+</script>    
+<script language="JavaScript"> 
+	function changerSelectChamp() {
+    	
+    	var typeOffre=$( "#typeOffre" ).val();
+    	if(typeOffre==0){
+    		$("#remise").prop('disabled', true);
+        	$("#unitGratuit").prop('disabled', true);
+    	}
+    	if(typeOffre==1){
+    		$("#remise").prop('disabled', false);
+        	$("#unitGratuit").prop('disabled', true);
+    	}
+    	if(typeOffre==2){
+    		$("#remise").prop('disabled', true);
+        	$("#unitGratuit").prop('disabled', false);
+    	}
+    	
+    	}	
+
+var TableEditable = function () {
+
+    var handleTable = function () {
+	
+        function restoreRow(oTable, nRow) {
+            var aData = oTable.fnGetData(nRow);
+            var jqTds = $('>td', nRow);
+			var id = $(jqTds[0]).find('input[type=checkbox]').val();
+			oTable.fnUpdate('<input type="checkbox" class="checkboxes" rel="" value="'+id+'">', nRow, 0, false);
+            for (var i = 1, iLen = jqTds.length; i < iLen; i++) {
+                oTable.fnUpdate(aData[i], nRow, i, false);
+            }
+
+            oTable.fnDraw();
+        }
+
+        
+
+        var table = $('#sample_editable_1');
+
+        var oTable = table.dataTable({
+        	
+        	"paging":   false,
+            "ordering": false,
+            "info":     false,
+            "language": {
+            	url: "//cdn.datatables.net/plug-ins/1.10.15/i18n/French.json"
+            },
+            "columnDefs": [{ // set default column settings
+                'orderable': true,
+                'targets': [0]
+            }, {
+                "searchable": false,
+                "targets": [0]
+            }]
+        });
+       
+
+        	function isBlank(str) {
+    return (!str || /^\s*$/.test(str));
+	}
+		
+	$('#sample_editable_1 #2 th').each(function(){
+		var title = $('#sample_editable_1 #1 th').eq($(this).index()).text();
+		if(title.indexOf("Actions") ==-1 && !isBlank(title))
+				$(this).html('<input type="text" class="form-control input"/>');
+	});
+	
+		oTable.api().columns().every(function () {
+		var datatableColumn = this;
+		var searchTextBoxes = $(this.header()).find('input');
+		searchTextBoxes.on('keyup change', function(){
+			datatableColumn.search(this.value).draw();
+			
+			var nNew = false;
+		});
+		searchTextBoxes.on('click', function(e){
+			e.stopPropagation();
+		});
+		
+	});
+		
+		
+		$('#searchad').on("click", function(event){
+			
+			setTimeout(function() {	$("#imglod").modal("show");}, 1000);
+			
+			setTimeout(function() {	document.location="/PartiperMonOffre";}, 1000);
+			
+			
+			});
+		
+			
+		
+		var tableWrapper = $("#sample_editable_1_wrapper");
+
+        
+
+        var nEditing = null;
+        var nNew = false;
+
+        $('#sample_editable_1_new').click(function (e) {
+        	
+        	
+        	
+        });
+        
+        
+        $('#sample_editable_2_new').click(function (e) {
+        	if (confirm("Attention toutes les Lignes seront supprimées .Etes-vous sur de vouloir modifier le fournisseur ?") == false) {
+                return;
+            }
+            $('#fournisseur').attr('disabled', false);
+            $('#dateOffre').attr('disabled', false);
+            $('#dateLimit').attr('disabled', false);
+            $('#groupe').attr('disabled', false);
+            e.preventDefault();
+            
+            $.ajax({
+    	        type : "POST",
+    	        url : "/deleteOffre2",
+    	        dataType : 'json',
+    	        success : function(response) {
+    	        	
+    	        	
+    	            if (nNew) {
+    	                oTable.fnDeleteRow(nEditing);
+    	                nEditing = null;
+    	                nNew = false;
+    	            } else {
+    	                restoreRow(oTable, nEditing);
+    	                nEditing = null;
+    	            }
+    	        	
+    	        },
+    	        error : function(request, status, error) {
+    	        	
+    	        }
+				
+    	    });
+        	
+        	
+        });
+        
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        
+        
+        
+		function addRow(oTable, nRow) {
+			
+            var aData = oTable.fnGetData(nRow);
+            var jqTds = $('>td', nRow);
+            var fournisseur=$('#fournisseur').val();
+            var dateOffre=$('#dateOffre').val();
+            var dateLimit=$('#dateLimit').val();
+            var groupe=$('#groupe').val();
+            
+            var publier=0;
+            $('#fournisseur').attr('disabled','disabled');
+            $('#dateOffre').attr('disabled','disabled');
+            $('#dateLimit').attr('disabled','disabled');
+            $('#groupe').attr('disabled','disabled');
+            if($('#publier').is(':checked')){
+            	publier=1;
+            }
+            $('#sample_editable_1_new').attr('disabled','disabled');
+            $('#sample_editable_2_new').attr('disabled','disabled');
+            
+            
+            
+            
+            
+            $.ajax({
+    	        type : "POST",
+    	        data : {
+    	        	fournisseur:fournisseur,
+    	        	dateOffre:dateOffre,
+    	        	dateLimit:dateLimit,
+    	        	publier:publier,
+    	        	groupe:groupe
+    	        	
+    	        },
+    	        url : "/produitByFournisseur",
+    	        dataType : 'json',
+    	        success : function(response) {
+    	        	var cookie=document.cookie;
+    	        	var idO=getCookie("idOffre");
+    	        	$('#publier').val(idO);
+    	        	
+    	        	
+    				
+    	        	jqTds[0].innerHTML = '<input type="checkbox" class="checkboxes" id="checkbox2"  >';
+    	        	console.log(response)
+    	        	jqTds[1].innerHTML = '<select class="form-control select2me" name="produit"	id="produit" ><option value="">Selectionner Produit...</option></select>';
+        	        	
+        	        jqTds[1].innerHTML = jqTds[1].innerHTML+'</select>';
+                    jqTds[2].innerHTML = '<input  id="qte" type="number" class="form-control" required="required" value="0" data-fv-integer="true"  data-fv-integer-message="Veuillez entrer un nombre"  onblur="verifInteger(this)"/>';
+                    jqTds[3].innerHTML = '<select id="typeOffre" type="text" class="form-control" onchange="changerSelectChamp()" ><option value="0">AUCUNE OFFRE</option><option value="1">REMISE</option><option value="2">UNITE GRATUITE</option></select>';
+                    jqTds[4].innerHTML = '<input id="remise" type="number" class="form-control" required="required" value="0" data-fv-integer="true"  data-fv-integer-message="Veuillez entrer un nombre" />';
+                    jqTds[5].innerHTML = '<input id="unitGratuit" type="number" class="form-control" required="required" value="0" data-fv-integer="true"  data-fv-integer-message="Veuillez entrer un nombre"  />';
+                    jqTds[6].innerHTML = '';
+                    
+                    $("#remise").prop('disabled', true);
+                	$("#unitGratuit").prop('disabled', true);
+    	            var options = "";
+    	            for(i in response)
+    	            {
+    	               options += "<option value = "+response[i].id+">"+response[i].nom+"</option>"; 
+    	            }
+    	            $('#produit').append(options);
+    	        	
+    	        },
+    	        error : function(request, status, error) {
+					
+    	        }
+				
+    	    });
+            	
+        }
+		
+		
+		$('#sample_editable_1').on( 'blur', 'tbody td:not(:first-child)', function (e) {
+			$('#sample_editable_1_new').attr('disabled','disabled');
+			$('#sample_editable_2_new').attr('disabled','disabled');
+			var idProduit=$("#produit").val();
+			var qte = $("#qte").val();
+			var typeOffre = $("#typeOffre").val();
+			var remise = $("#remise").val();
+			var unitGratuit = $("#unitGratuit").val();
+			console.log(idProduit)
+			var valide=0;
+			if(idProduit!="" && qte>0 && typeOffre!=0){
+				if(typeOffre==1){
+					if(remise!=0){
+						valide=1;
+						unitGratuit=0;
+					}
+				}else{
+					if(unitGratuit!=0){
+						valide=1;
+						remise=0;
+					}
+				}
+			}
+			if(valide==1){
+				$.ajax({
+	    	        type : "POST",
+	    	        data : {
+	    	        	idProduit:idProduit,
+	    	        	qte : qte,
+	    	        	typeOffre:typeOffre,
+	    	    		remise:remise,
+	    	    		unitGratuit:unitGratuit
+	    	        },
+	    	        url : "/addProposition_ok",
+	    	        dataType : 'json',
+	    	        success : function(response) {
+	    	        	console.log(response)
+	    	        	oTable.fnClearTable();
+	    	        	
+	                    
+	    	        	for(var i=0;i<response.propositions.length;i++){
+	    	        		var aiNew = oTable.fnAddData(['', '', '', '', '', '', '']);
+							var nRow = oTable.fnGetNodes(aiNew[i+1]);
+							var jqInputs = $('input', nRow);
+							oTable.fnUpdate(response.propositions[i].id, nRow, 0, false);
+		    	            oTable.fnUpdate(response.propositions[i].produit.nom, nRow, 1, false);
+		    	            oTable.fnUpdate(response.propositions[i].qte, nRow, 2, false);
+		    	            if(response.propositions[i].typeOffre==1){
+		    	            	oTable.fnUpdate("REMISE", nRow, 3, false);
+		    	            }else if(response.propositions[i].typeOffre==2){
+		    	            	oTable.fnUpdate("Unité gratuit", nRow, 3, false);
+		    	            }else{
+		    	            	oTable.fnUpdate("AUCUN", nRow, 3, false);
+		    	            }
+		    	            
+		    	            oTable.fnUpdate(response.propositions[i].remise, nRow, 4, false);
+		    	            oTable.fnUpdate(response.propositions[i].unitGratuit, nRow, 5, false);
+		    	            oTable.fnUpdate('<a class="delete" rel="'+ response.propositions[i].id+'"><img src="../../assets/img/delete.png" title="Supprimer"></a>', nRow,6, false);
+		    	            oTable.fnDraw();
+		    	            
+	    	        	}
+	    	        	var aiNew = oTable.fnAddData(['', '', '', '', '', '', '']);
+	    	            var aData = oTable.fnGetData(nRow);
+	    	            var jqTds = $('>td', nRow);
+	                    var nRow = oTable.fnGetNodes(aiNew[0]);
+	                    addRow(oTable, nRow);
+	    	        	
+	    	        	
+						
+	    	            
+	    	        	
+	    	        },
+	    	        error : function(request, status, error) {
+						$("#ajax").modal("hide");
+	    	        	$("#msg3").html("Erreur : "+ error);
+						$("#large2").modal("show");
+						setTimeout(function() {$("#large2").modal("hide");}, 2000);
+	    	        }
+					
+	    	    });
+			}
+			//editor.inline( this, {
+	        	
+	          //  onBlur: 'submit'
+	        //} );
+	    } );
+		
+		
+		table.on('click', '.save', function (e) {
+            e.preventDefault();
+
+            /* Get the row as a parent of the link that was clicked on */
+            var nRow = $(this).parents('tr');
+            
+            saveRow(oTable, nEditing);
+            nEditing = null;
+            
+        });
+		
+
+        table.on('click', '.delete', function (e) {
+            e.preventDefault();
+            if (confirm("Etes-vous sur de vouloir supprimer la ligne ?") == false) {
+                return;
+            }
+			var idProposition=$('#checkbox2').val();
+            var nRow = $(this).parents('tr')[0];
+            oTable.fnDeleteRow(nRow);
+            
+            $.ajax({
+    	        type : "POST",
+    	        data : {
+    	        	idProposition:idProposition
+    	        },
+    	        url : "/deleteProposition",
+    	        dataType : 'json',
+    	        success : function(response) {
+    	        	
+    	        	
+    	        	
+    	        },
+    	        error : function(request, status, error) {
+					
+    	        }
+				
+    	    });
+            
+            
+            
+        });
+
+        table.on('click', '.cancel', function (e) {
+        	$('#sample_editable_1_new').prop('disabled', false);
+			$('#sample_editable_2_new').prop('disabled', false);
+            e.preventDefault();
+            if (nNew) {
+                oTable.fnDeleteRow(nEditing);
+                nEditing = null;
+                nNew = false;
+            } else {
+                restoreRow(oTable, nEditing);
+                nEditing = null;
+            }
+        });
+
+        table.on('click', '.edit', function (e) {
+            e.preventDefault();
+
+            /* Get the row as a parent of the link that was clicked on */
+            var nRow = $(this).parents('tr')[0];
+
+            if (nEditing !== null && nEditing != nRow) {
+                /* Currently editing - but not this row - restore the old before continuing to edit mode */
+                restoreRow(oTable, nEditing);
+                editRow(oTable, nRow);
+                nEditing = nRow;
+            } else if (nEditing == nRow && this.innerHTML == "Enregistrer") {
+                /* Editing this row and want to save it */
+                saveRow(oTable, nEditing);
+                nEditing = null;
+                alert("Ligne mise à jour.");
+            } else {
+                /* No edit in progress - let's start one */
+                editRow(oTable, nRow);
+                nEditing = nRow;
+            }
+        });
+	
+		
+		
+    }
+	
+
+    return {
+
+        //main function to initiate the module
+        init: function () {
+            handleTable();
+        }
+
+    };
+
+}();
+
+
+	
+	
+	
+</script>
+
+    
+    
+    
+    
+<script>
+$(document).ready(function() {
+	
+	 
+	 
+} );
+jQuery(document).ready(function() {   
+	$("[name='publier']").bootstrapSwitch();
+	$("#produit").select2();
+	$("#fournisseur").select2();
+	$("#groupe").select2();
+	$("#produit").attr('disabled','disabled');
+	$("#qte").attr('disabled','disabled');
+	$("#typeOffre").attr('disabled','disabled');
+	$("#remise").attr('disabled','disabled');
+	$("#unitGratuit").attr('disabled','disabled');
+	
+	Layout.init(); // init current layout
+	<!-- QuickSidebar.init(); // init quick sidebar
+	//Demo.init(); // init dem -->o features
+	TableEditable.init(); 
+});
+</script>
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

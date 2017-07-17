@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="author" content="LOGILAN Maroc" />
+
+<!-- Stylesheets
+    ============================================= -->
+<link
+	href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic"
+	rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="../../assets/assure/css/bootstrap.css"
+	type="text/css" />
+	
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+	type="text/css" />
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"
+	type="text/css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css"
+	type="text/css" />	
+	
+	
+	
+<link rel="stylesheet" href="../../assets/assure/style.css"
+	type="text/css" />
+<link rel="stylesheet" href="../../assets/assure/css/dark.css"
+	type="text/css" />
+<link rel="stylesheet" href="../../assets/assure/css/font-icons.css"
+	type="text/css" />
+<link rel="stylesheet" href="../../assets/assure/css/animate.css"
+	type="text/css" />
+<link rel="stylesheet" href="../../assets/assure/css/magnific-popup.css"
+	type="text/css" />
+
+<link rel="stylesheet" href="../../assets/assure/css/responsive.css"
+	type="text/css" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1" />
+<style type="text/css">
+	#success_message{ display: none;}
+	#erreur_message{ display: none;}
+</style>
+<!--[if lt IE 9]>
+    	<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+    <![endif]-->
+
+<!-- External JavaScripts
+    ============================================= -->
+<script type="text/javascript" src="../../assets/assure/js/jquery.js"></script>
+<script type="text/javascript" src="../../assets/assure/js/plugins.js"></script>
+<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js"></script>
+
+<!-- Document Title
+    ============================================= -->
+<title>LOGILAN Maroc, Inscription</title>
+
+</head>
+
+<body class="stretched">
+
+	<!-- Document Wrapper
+    ============================================= -->
+	<div id="wrapper" class="clearfix">
+
+		<!-- Header
+        ============================================= -->
+		<header id="header" class="full-header">
+
+			<div id="header-wrap">
+
+				<div class="container clearfix">
+
+					<div id="primary-menu-trigger">
+						<i class="icon-reorder"></i>
+					</div>
+
+					<!-- Logo
+                    ============================================= -->
+					<div id="logo">
+						<a href="/" class="standard-logo"
+							data-dark-logo="../../assets/assure/images/logo-dark.png"><img
+							src="../../assets/assure/images/logo.png" alt="Canvas Logo"></a>
+						<a href="/" class="retina-logo"
+							data-dark-logo="../../assets/assure/images/logo-dark@@2x.png"><img
+							src="../../assets/assure/images/logo@@2x.png" alt="Canvas Logo"></a>
+					</div>
+					<!-- #logo end -->
+
+					<!-- Primary Navigation
+                    ============================================= -->
+					<nav id="primary-menu">
+
+						<ul class="one-page-menu">
+							<li><a href="/#home" data-href="#wrapper"><div>Acceuil</div></a></li>
+							<li><a href="/#about" data-href="#about"><div>A Propos</div></a></li>
+							<li><a href="/authentification" data-href="authentification"><div>Information personnel</div></a></li>
+							<li><a href="" data-href=""><div>Information général</div></a></li>
+							<li><a href="/prix" data-href="/prix"><div>Inscriptions</div></a></li>
+							<li><a href="/#contact" data-href="footer"><div>Contact</div></a></li>
+						</ul>
+
+
+						<div id="top-cart">
+
+							<h4>
+							<button type="button" class="btn btn-default btn-sm" onclick="goToAuthentification()"
+									class="btn btn-default btn-sm">LogiEchange</button>
+								
+							</h4>
+						</div>
+
+
+						<!-- #top-search end -->
+
+					</nav>
+					<!-- #primary-menu end -->
+
+
+				</div>
+
+			</div>
+
+		</header>
+		<!-- #header end -->
+
+		<!-- Page Title
+        ============================================= -->
+		<section id="page-title">
+
+			<div class="container clearfix">
+				<h1>Inscription des officines</h1>
+				
+				
+			</div>
+
+		</section>
+		<!-- #page-title end -->
+
+		<!-- Content
+        ============================================= -->
+		<section id="content">
+
+			<div class="content-wrap">
+
+				<div class="container clearfix">
+
+					<div id="processTabs">
+						
+						<div>
+							
+							<div id="ptab2">
+
+								<div class="col_two_third col_last nobottommargin">
+
+
+									<h3>Inscrivez-vous maintenant.</h3>
+
+
+									<form class="well form-horizontal"   id="contact_form">
+									<input type="hidden" id="user" name="user"/>
+										<fieldset>
+										<div class="form-group">
+  											<label class="col-md-4 control-label" >Raison Social *</label> 
+    										<div class="col-md-8 inputGroupContainer">
+    											<div class="input-group">
+  													<span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+  													<input id="nomOfficine" name="nomOfficine" placeholder="Pharmacie XXXXXXX" class="form-control" width="600px" type="text" required="required">
+    											</div>
+  											</div>
+										</div>
+										<div class="form-group">
+  											<label class="col-md-4 control-label">Nom *</label>  
+  											<div class="col-md-8 inputGroupContainer">
+  												<div class="input-group">
+  													<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+ 													 <input id="nom"  name="nom" placeholder="Nom" class="form-control"  type="text" required="required">
+   												 </div>
+  											</div>
+										</div>
+										<div class="form-group">
+  											<label class="col-md-4 control-label" >Prénom *</label> 
+    										<div class="col-md-8 inputGroupContainer">
+    											<div class="input-group">
+  													<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+  													<input id="prenom" name="prenom" placeholder="Prénom" class="form-control"  type="text" required="required">
+    											</div>
+  											</div>
+										</div>
+										<div class="form-group">
+  											<label class="col-md-4 control-label" >E-Mail *</label> 
+    										<div class="col-md-8 inputGroupContainer">
+    											<div class="input-group">
+  													<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+  													<input id="email" name="email" placeholder="E-Mail Address" class="form-control"  type="email" required="required">
+    											</div>
+  											</div>
+										</div>
+										<div class="form-group">
+  											<label class="col-md-4 control-label" >TELEPHONE PERSONNEL</label> 
+    										<div class="col-md-8 inputGroupContainer">
+    											<div class="input-group">
+  													<span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+  													<input id="tel" name="tel" placeholder="(00212) 600000000" class="form-control"  type="text">
+    											</div>
+  											</div>
+										</div>
+										<div class="form-group">
+  											<label class="col-md-4 control-label" >FIXE</label> 
+    										<div class="col-md-8 inputGroupContainer">
+    											<div class="input-group">
+  													<span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+  													<input id="fix" name="fix" placeholder="(00212) 600000000" class="form-control"  type="text">
+    											</div>
+  											</div>
+										</div>
+										
+										<div class="form-group">
+  											<label class="col-md-4 control-label" >Addresse</label> 
+    										<div class="col-md-8 inputGroupContainer">
+    											<div class="input-group">
+  													<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+  													<textarea id="address" name="address" placeholder="Address" class="form-control"  type="text"></textarea>
+    											</div>
+  											</div>
+										</div>
+										<div class="form-group">
+  											<label class="col-md-4 control-label" >Login *</label> 
+    										<div class="col-md-8 inputGroupContainer">
+    											<div class="input-group">
+  													<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+  													<input id="login" name="login" placeholder="Identifiant" class="form-control"  type="text" required="required">
+    											</div>
+  											</div>
+										</div>
+										<div class="form-group">
+  											<label class="col-md-4 control-label" >Password *</label> 
+    										<div class="col-md-8 inputGroupContainer">
+    											<div class="input-group">
+  													<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+  													<input id="password" name="password" placeholder="" class="form-control"  type="password" required="required">
+    											</div>
+  											</div>
+										</div>
+										<div class="form-group">
+  											<label class="col-md-4 control-label" >Confirmation Password *</label> 
+    										<div class="col-md-8 inputGroupContainer">
+    											<div class="input-group">
+  													<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+  													<input id="cpassword" name="cpassword" placeholder="" class="form-control"  type="password" required="required">
+    											</div>
+  											</div>
+										</div>
+										<div class="form-group">
+  											<label class="col-md-4 control-label" >INPE</label> 
+    										<div class="col-md-8 inputGroupContainer">
+    											<div class="input-group">
+  													<span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+  													<input id="inpe" name="inpe"  class="form-control"  type="number" >
+    											</div>
+  											</div>
+										</div>
+										
+										
+
+
+
+<div class="alert alert-success" role="alert" id="success_message">Success :<i class="glyphicon glyphicon-thumbs-up"></i> Vos coordonées ont été envoyer avec succées.</div>
+<div class="alert alert alert-danger" role="alert" id="erreur_message">Erreur :<i class="glyphicon glyphicon-thumbs-up"></i> Veuillez corriger les erreurs.</div>
+<!-- Button -->
+
+
+</fieldset>
+</form>
+    								
+  <div class="form-group">
+  <label class="col-md-4 control-label"></label>
+  <div class="col-md-4">
+    <button type="submit" class="btn btn-warning" onClick="regester()" >Enregistrer <span class="glyphicon glyphicon-send"></span></button>
+  </div>
+</div>  
+									
+									
+									
+									
+
+							</div>
+							
+							
+						</div>
+					</div>
+
+					
+
+					<div class="clear"></div>
+
+					<div class="divider divider-center">
+						<i class="icon-circle"></i>
+					</div>
+
+
+
+
+
+					<div class="line visible-xs"></div>
+
+
+
+
+
+				</div>
+
+			</div>
+
+		</section>
+		<!-- #content end -->
+
+		<!-- Footer
+        ============================================= -->
+		<footer id="footer" class="dark">
+
+
+			<!-- Copyrights
+            ============================================= -->
+			<div id="copyrights">
+
+				<div class="container clearfix">
+
+					<div class="col_full nobottommargin center">
+						
+						Copyrights LOGILAN MAROC&copy; 2017 All Rights Reserved.
+					</div>
+
+				</div>
+
+			</div>
+			<!-- #copyrights end -->
+
+		</footer>
+		<!-- #footer end -->
+
+	</div>
+	<!-- #wrapper end -->
+
+	<!-- Go To Top
+    ============================================= -->
+	<div id="gotoTop" class="icon-angle-up"></div>
+
+	<!-- Footer Scripts
+    ============================================= -->
+	<script type="text/javascript"
+		src="../../assets/assure/js/functions.js"></script>
+		
+<script type="text/javascript">
+
+$(document).ready(function() {
+    $('#contact_form').bootstrapValidator({
+        // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            nom: {
+                validators: {
+                        stringLength: {
+                        min: 2,
+                    },
+                        notEmpty: {
+                        message: 'SVP VEUILLEZ REMPLAIRE LE CHAMPS NOM'
+                    }
+                }
+            },
+             prenom: {
+                validators: {
+                     stringLength: {
+                        min: 2,
+                    },
+                    notEmpty: {
+                        message: 'SVP VEUILLEZ REMPLAIRE LE CHAMPS PRENOM'
+                    }
+                }
+            },
+            email: {
+                validators: {
+                    notEmpty: {
+                        message: 'SVP VEUILLEZ REMPLAIRE LE CHAMPS Email'
+                    },
+                    emailAddress: {
+                        message: 'SVP ENTREZ ADRESS EMAIL VALID'
+                    }
+                }
+            },
+            tel: {
+                validators: {
+                    notEmpty: {
+                        message: 'SVP VEUILLEZ REMPLAIRE LE CHAMPS TEL'
+                    },
+                    phone: {
+                        country: 'MA',
+                        message: 'SVP ENTREZ UN NUMERO VALID'
+                    }
+                }
+            },
+            fix: {
+                validators: {
+                    
+                    phone: {
+                        country: 'MA',
+                        message: 'SVP ENTREZ UN NUMERO VALID'
+                    }
+                }
+            },
+            address: {
+                validators: {
+                     stringLength: {
+                        min: 8,
+                    },
+                    notEmpty: {
+                        message: 'SVP VEUILLEZ REMPLAIRE VOTRE ADRESS'
+                    }
+                }
+            },
+            nomOfficine: {
+                validators: {
+                    stringLength: {
+                    min: 2,
+                },
+                    notEmpty: {
+                    message: 'SVP VEUILLEZ REMPLAIRE LE CHAMP NOM OFFICINE'
+                }
+            }
+        },
+        login: {
+            validators: {
+                stringLength: {
+                min: 4,
+            },
+                notEmpty: {
+                message: 'SVP VEUILLEZ REMPLAIRE LE CHAMP Login au mois 4 caractére'
+            }
+        }
+    },
+    password: {
+        validators: {
+        	stringLength: {
+                min: 6,
+            },
+            identical: {
+                field: 'cpassword',
+                message: 'mot de passe et sa confirmation non identique'
+            }
+        }
+    },
+	cpassword: {
+        validators: {
+            identical: {
+                field: 'password',
+                message: 'mot de passe et sa confirmation non identique'
+            }
+        }
+    }
+            
+            }
+        })
+        .on('success.form.bv', function(e) {
+            $('#success_message').slideDown({ opacity: "show" }, "slow") // Do something ...
+                $('#contact_form').data('bootstrapValidator').resetForm();
+
+            // Prevent form submission
+            e.preventDefault();
+
+            // Get the form instance
+            var $form = $(e.target);
+
+            // Get the BootstrapValidator instance
+            var bv = $form.data('bootstrapValidator');
+
+            // Use Ajax to submit form data
+            $.post($form.attr('action'), $form.serialize(), function(result) {
+                console.log(result);
+            }, 'json');
+        });
+});
+
+</script>
+		
+		
+		
+	<script>
+	
+	
+	
+		function regester() {
+			
+			
+			var nom = $("#nom").val();
+			
+			var prenom = $("#prenom").val();
+			
+			var email = $("#email").val();
+			
+			var pass = $("#password").val();
+			
+			var tel = $("#tel").val();
+			
+			var login = $("#login").val();
+			
+			var role = "Pharmacien";
+			var mac = "";
+			 
+			$.ajax({
+				type : "POST",
+				data : {
+					nom : nom,
+					prenom : prenom,
+					email : email,
+					pass : pass,
+					tel : tel,
+					login : login,
+					role : role,
+					mac : mac
+
+				},
+				url : "/addNewUser",
+				dataType : 'json',
+				success : function(response) {
+ 					
+ 					
+ 					
+ 					regesterOfficine(response.id);
+				},
+
+				error : function(request, status, error) {
+								
+					 }
+				
+
+			});
+		}
+		
+		function regesterOfficine(user) {
+			
+			var nomOfficine = $("#nomOfficine").val();
+			
+			var adress = $("#address").val();
+			var fix = $("#fix").val();
+			var inpe = $("#inpe").val();
+			var manager = 0;
+			
+			
+			 
+			$.ajax({
+				type : "POST",
+				data : {
+					nomOfficine : nomOfficine,
+					adress : adress,
+					manager : manager,
+					user : user,
+					fix : fix,
+					inpe : inpe
+
+				},
+				url : "/addNewOfficine",
+				dataType : 'json',
+				success : function(response) {
+					document.location = "authentification"; 
+				},
+
+				error : function(request, status, error) {
+					document.location = "authentification"; 	
+					 }
+				
+
+			});
+		}
+		goToAuthentification = function() {
+			document.location = "authentification";
+		}
+		
+	</script>
+</body>
+</html>
